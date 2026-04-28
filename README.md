@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./public/screenshots/hero-banner.png" width="100%" alt="AgentFlow România Banner">
+  <img src="./hero-banner.png" width="100%" alt="AgentFlow România Banner">
 </p>
 
 <h1 align="center">🏢 AgentFlow România</h1>
