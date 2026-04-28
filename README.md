@@ -1,80 +1,156 @@
-# 🏢 AgentFlow România
+<p align="center">
+  <img src="./public/screenshots/hero-banner.png" width="100%" alt="AgentFlow România Banner">
+</p>
+
+<h1 align="center">🏢 AgentFlow România</h1>
 
 <p align="center">
-  <strong>Mai multe leaduri. Mai multe vizionări. Mai multe comisioane.</strong>
+<strong>Mai multe leaduri. Mai multe vizionări. Mai multe comisioane.</strong>
 </p>
 
 <p align="center">
-  Premium CRM & automation platform built for modern real estate agents and agencies in Romania.
+Premium CRM & automation platform pentru agenți imobiliari și agenții moderne din România.
+</p>
+
+<p align="center">
+
+<img src="https://img.shields.io/badge/STATUS-LIVE%20PROTOTYPE-gold?style=for-the-badge">
+<img src="https://img.shields.io/badge/STACK-REACT%20%2B%20VITE-black?style=for-the-badge">
+<img src="https://img.shields.io/badge/DEPLOY-VERCEL-blue?style=for-the-badge">
+<img src="https://img.shields.io/badge/MARKET-ROMANIA-red?style=for-the-badge">
+<img src="https://img.shields.io/badge/LICENSE-ALL%20RIGHTS%20RESERVED-darkgreen?style=for-the-badge">
+
 </p>
 
 ---
 
-## ⚡ Executive Summary
+# ⚡ Executive Summary
 
-AgentFlow România is a modern real estate operating system designed to eliminate chaos from spreadsheets, scattered WhatsApp conversations, missed follow-ups, and lost opportunities.
+AgentFlow România este construit pentru profesioniști imobiliari care s-au săturat de:
 
-Built for ambitious real estate professionals who want structure, speed, visibility, and growth.
+- leaduri pierdute  
+- haos în WhatsApp  
+- Excel-uri fără control  
+- follow-up uitat  
+- vizionări dezorganizate  
+- comisioane neclare  
 
----
-
-## 🚀 Core Capabilities
-
-### 📥 Lead Management
-- Capture and organize leads
-- Track lead status
-- Follow-up reminders
-- Source attribution
-
-### 🏠 Property Management
-- Listings database
-- Availability status
-- Price management
-- Commission forecasting
-
-### 📅 Viewing Scheduler
-- Schedule property visits
-- Client reminders
-- Calendar organization
-
-### 💬 Communication Tools
-- WhatsApp templates
-- Email follow-up templates
-- Quick contact workflows
-
-### 💰 Revenue Intelligence
-- Commission calculator
-- Monthly pipeline overview
-- Performance dashboard
-
-### 🤖 AI Assisted Copywriting
-- Generate listing descriptions
-- Premium / Investment / Emotional styles
+Această platformă transformă activitatea zilnică într-un sistem modern, clar și profitabil.
 
 ---
 
-## 🎯 Why AgentFlow România
+# 🚀 Funcționalități Premium
 
-Because top agents should spend time closing deals, not searching through messages.
+## 📥 CRM Leaduri
 
-AgentFlow transforms disorder into a measurable sales pipeline.
+- administrare leaduri noi
+- status pipeline
+- surse leaduri
+- follow-up inteligent
+- istoric client
+
+## 🏠 Proprietăți
+
+- portofoliu proprietăți
+- prețuri
+- status activ / rezervat / vândut
+- comision estimat
+
+## 📅 Vizionări
+
+- programări rapide
+- calendar demo
+- remindere
+- status întâlniri
+
+## 💬 Follow-Up Automat
+
+- template WhatsApp
+- template Email
+- task-uri zilnice
+
+## 💰 Inteligență Financiară
+
+- calculator comision
+- estimare venit lunar
+- pipeline valoare
+
+## 🤖 AI Descrieri Imobiliare
+
+- premium copywriting
+- stil investițional
+- stil emoțional
+- stil minimalist
 
 ---
 
-## 🛠 Technology Stack
+# 🎯 De ce AgentFlow?
 
-- React
-- Vite
-- Tailwind CSS
-- JavaScript
-- Responsive UI
-- Vercel Ready
-- GitHub Ready
+Pentru că agenții buni trebuie să închidă tranzacții, nu să caute conversații pierdute.
 
 ---
 
-## 📦 Installation
+# 🛠 Stack Tehnologic
 
 ```bash
+React
+Vite
+Tailwind CSS
+JavaScript
+LocalStorage
+Responsive UI
+GitHub
+Vercel
+
+📦 Instalare Locală
 npm install
 npm run dev
+🏗 Build Production
+npm run build
+🌍 Lansare Rapidă
+
+Recomandat:
+
+Vercel
+Netlify
+📈 Planuri Comerciale
+Plan	Preț
+Agent Solo	99 lei/lună
+Agent Pro	199 lei/lună
+Agenție	499 lei/lună
+🔒 Proprietate Intelectuală
+
+Tot conținutul acestui repository, inclusiv:
+
+branding
+naming
+UI
+logică business
+cod sursă
+strategie comercială
+documentație
+
+este proprietatea exclusivă a autorului.
+
+👑 Ownership
+
+© 2026 Ciprian Stefan Plesca
+All Rights Reserved
+
+📊 Roadmap V2
+autentificare utilizatori
+backend real
+CRM cloud
+integrare WhatsApp
+automatizări leaduri
+analytics avansat
+AI real descriptions
+abonamente Stripe
+⭐ Support Vision
+
+Dacă apreciezi produse premium construite independent:
+
+Sponsor / Partner / Collaborate
+🧠 Strategic Vision
+
+Construim viitorul operațiunilor imobiliare din România.
