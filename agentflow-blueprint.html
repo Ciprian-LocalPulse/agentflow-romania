@@ -1,0 +1,1988 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AgentFlow Romania V2 — Enterprise SaaS Blueprint</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --navy:#060D1F;
+  --navy2:#0F1F52;
+  --navy3:#162D6E;
+  --gold:#C9A015;
+  --gold2:#E6B824;
+  --accent:#2D52B4;
+  --wire:#1A2F6B;
+  --dim:#0A1433;
+  --text:#E8EBF5;
+  --muted:#7A8AAE;
+  --line:#1E2F5C;
+  --green:#16A34A;
+  --red:#DC2626;
+  --orange:#D97706;
+  --teal:#0D9488;
+  --purple:#7C3AED;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--navy);
+  color:var(--text);
+  font-family:'Lato',sans-serif;
+  font-size:14px;
+  line-height:1.65;
+  overflow-x:hidden;
+}
+h1,h2,h3,h4,h5{font-family:'Syne',sans-serif;line-height:1.15;}
+code,pre,tt{font-family:'IBM Plex Mono',monospace;}
+
+/* GRID OVERLAY */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:
+    linear-gradient(var(--wire) 1px,transparent 1px),
+    linear-gradient(90deg,var(--wire) 1px,transparent 1px);
+  background-size:40px 40px;
+  opacity:0.18;
+  pointer-events:none;
+  z-index:0;
+}
+
+.wrap{position:relative;z-index:1;max-width:1320px;margin:0 auto;padding:0 32px;}
+
+/* ====== COVER ====== */
+#cover{
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:80px 0 60px;
+  border-bottom:1px solid var(--line);
+  position:relative;overflow:hidden;
+}
+#cover::after{
+  content:'';
+  position:absolute;right:-200px;top:50%;transform:translateY(-50%);
+  width:700px;height:700px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(201,160,21,0.07) 0%,transparent 70%);
+  pointer-events:none;
+}
+.cover-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid var(--gold);
+  color:var(--gold);
+  font-family:'Syne',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;
+  padding:6px 16px;border-radius:2px;
+  margin-bottom:36px;width:fit-content;
+}
+.cover-tag span{width:6px;height:6px;background:var(--gold);border-radius:50%;display:block;animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+#cover h1{
+  font-size:clamp(48px,7vw,96px);
+  font-weight:800;
+  color:#fff;
+  letter-spacing:-2px;
+  line-height:0.95;
+  margin-bottom:8px;
+}
+.gold-word{color:var(--gold);}
+.cover-sub{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(18px,3vw,28px);
+  color:var(--muted);
+  font-weight:400;
+  margin-bottom:48px;
+  margin-top:16px;
+}
+.cover-meta{
+  display:flex;flex-wrap:wrap;gap:32px;
+  border-top:1px solid var(--line);
+  padding-top:32px;
+  margin-top:32px;
+}
+.meta-item{display:flex;flex-direction:column;gap:4px;}
+.meta-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-family:'Syne',sans-serif;}
+.meta-value{font-size:15px;font-weight:700;color:var(--text);font-family:'Syne',sans-serif;}
+.meta-value.gold{color:var(--gold);}
+.version-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(201,160,21,0.12);border:1px solid rgba(201,160,21,0.3);
+  color:var(--gold);font-family:'IBM Plex Mono',monospace;
+  font-size:12px;padding:4px 12px;border-radius:2px;
+  margin-bottom:16px;
+}
+
+/* ====== SECTION ====== */
+.section{
+  padding:72px 0;
+  border-bottom:1px solid var(--line);
+}
+.section-header{
+  display:flex;align-items:flex-start;gap:24px;
+  margin-bottom:56px;
+}
+.section-num{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;color:var(--gold);
+  letter-spacing:2px;
+  border:1px solid var(--gold);
+  padding:4px 10px;
+  border-radius:2px;
+  white-space:nowrap;
+  flex-shrink:0;
+  margin-top:6px;
+}
+.section-title-block h2{
+  font-size:clamp(24px,4vw,42px);
+  font-weight:800;color:#fff;
+  letter-spacing:-1px;
+  margin-bottom:8px;
+}
+.section-desc{color:var(--muted);font-size:15px;max-width:700px;line-height:1.7;}
+
+/* ====== CARDS ====== */
+.card{
+  background:rgba(15,31,82,0.5);
+  border:1px solid var(--line);
+  border-radius:4px;
+  padding:24px;
+}
+.card-gold{border-color:rgba(201,160,21,0.3);background:rgba(201,160,21,0.05);}
+.card-green{border-color:rgba(22,163,74,0.3);background:rgba(22,163,74,0.05);}
+.card-red{border-color:rgba(220,38,38,0.3);background:rgba(220,38,38,0.05);}
+.card-blue{border-color:rgba(45,82,180,0.3);background:rgba(45,82,180,0.05);}
+.card-purple{border-color:rgba(124,58,237,0.3);background:rgba(124,58,237,0.05);}
+.card-teal{border-color:rgba(13,148,136,0.3);background:rgba(13,148,136,0.05);}
+
+.card-title{
+  font-family:'Syne',sans-serif;font-size:13px;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;
+  margin-bottom:16px;
+  display:flex;align-items:center;gap:8px;
+}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.dot-gold{background:var(--gold);}
+.dot-green{background:var(--green);}
+.dot-red{background:var(--red);}
+.dot-blue{background:var(--accent);}
+.dot-purple{background:var(--purple);}
+.dot-teal{background:var(--teal);}
+
+/* ====== GRID LAYOUTS ====== */
+.grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+.grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;}
+.grid-12{display:grid;grid-template-columns:5fr 7fr;gap:24px;}
+.grid-21{display:grid;grid-template-columns:7fr 5fr;gap:24px;}
+
+/* ====== TABLES ====== */
+.db-table{
+  background:var(--dim);
+  border:1px solid var(--line);
+  border-radius:4px;
+  overflow:hidden;
+  width:100%;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;
+}
+.db-table-header{
+  background:rgba(201,160,21,0.15);
+  border-bottom:1px solid rgba(201,160,21,0.3);
+  padding:12px 16px;
+  display:flex;align-items:center;gap:8px;
+}
+.db-table-header span{color:var(--gold);font-weight:700;font-size:13px;letter-spacing:1px;}
+.db-table-header .tbl-icon{
+  width:20px;height:20px;border-radius:2px;
+  background:rgba(201,160,21,0.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;color:var(--gold);font-weight:700;
+}
+.db-row{
+  display:grid;grid-template-columns:40px 1fr 1fr 1fr;
+  border-bottom:1px solid var(--line);
+  align-items:center;
+}
+.db-row:last-child{border-bottom:none;}
+.db-row.header{
+  background:rgba(255,255,255,0.03);
+  color:var(--muted);
+  font-size:10px;letter-spacing:1px;text-transform:uppercase;
+}
+.db-row:not(.header):hover{background:rgba(255,255,255,0.02);}
+.db-cell{padding:9px 12px;border-right:1px solid var(--line);}
+.db-cell:last-child{border-right:none;}
+.db-cell.pk{color:var(--gold);}
+.db-cell.fk{color:#60A5FA;}
+.db-cell.type{color:#A78BFA;}
+.db-cell.constraint{color:var(--teal);font-size:10px;}
+.pk-badge{
+  display:inline-flex;align-items:center;gap:3px;
+  background:rgba(201,160,21,0.15);color:var(--gold);
+  font-size:9px;padding:1px 5px;border-radius:2px;letter-spacing:1px;
+}
+.fk-badge{
+  display:inline-flex;align-items:center;gap:3px;
+  background:rgba(96,165,250,0.1);color:#60A5FA;
+  font-size:9px;padding:1px 5px;border-radius:2px;
+}
+
+/* ====== CODE BLOCKS ====== */
+.code-block{
+  background:var(--dim);
+  border:1px solid var(--line);
+  border-radius:4px;
+  overflow:hidden;
+}
+.code-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 16px;
+  border-bottom:1px solid var(--line);
+  background:rgba(255,255,255,0.03);
+}
+.code-lang{font-family:'Syne',sans-serif;font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
+.code-dots{display:flex;gap:5px;}
+.code-dot{width:8px;height:8px;border-radius:50%;}
+pre{padding:20px;overflow-x:auto;font-size:12px;line-height:1.7;}
+.k{color:#F97316;}
+.s{color:#86EFAC;}
+.c{color:var(--muted);font-style:italic;}
+.v{color:#C4B5FD;}
+.n{color:#60A5FA;}
+.p{color:#FCD34D;}
+.fn{color:#F59E0B;}
+.kw{color:#F472B6;}
+
+/* ====== FLOW DIAGRAM ====== */
+.flow-diagram{
+  display:flex;align-items:center;gap:0;
+  overflow-x:auto;
+  padding:8px 0 16px;
+}
+.flow-step{
+  flex-shrink:0;
+  text-align:center;
+  min-width:140px;
+}
+.flow-node{
+  display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
+  width:120px;height:80px;
+  border:1px solid;border-radius:4px;
+  padding:8px;
+  position:relative;
+}
+.flow-node-title{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;}
+.flow-node-sub{font-size:9px;color:var(--muted);margin-top:3px;}
+.flow-arr{
+  display:flex;align-items:center;
+  color:var(--muted);font-size:20px;padding:0 4px;
+  flex-shrink:0;
+}
+.flow-n{border-color:var(--line);background:rgba(15,31,82,0.6);}
+.flow-g{border-color:rgba(201,160,21,0.4);background:rgba(201,160,21,0.08);}
+.flow-b{border-color:rgba(45,82,180,0.4);background:rgba(45,82,180,0.08);}
+.flow-e{border-color:rgba(22,163,74,0.4);background:rgba(22,163,74,0.08);}
+.flow-r{border-color:rgba(220,38,38,0.3);background:rgba(220,38,38,0.06);}
+
+/* ====== INTEGRATION CARDS ====== */
+.integration-card{
+  border:1px solid var(--line);
+  border-radius:4px;
+  overflow:hidden;
+}
+.int-header{
+  padding:16px 20px;
+  border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:12px;
+  background:rgba(255,255,255,0.02);
+}
+.int-logo{
+  width:36px;height:36px;border-radius:4px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-size:11px;font-weight:800;
+  flex-shrink:0;
+}
+.int-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#fff;}
+.int-role{font-size:11px;color:var(--muted);}
+.int-body{padding:16px 20px;}
+.int-row{
+  display:flex;gap:8px;align-items:flex-start;
+  margin-bottom:10px;font-size:12px;
+}
+.int-row:last-child{margin-bottom:0;}
+.int-key{color:var(--muted);min-width:90px;flex-shrink:0;font-family:'Syne',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:1px;padding-top:1px;}
+.int-val{color:var(--text);}
+
+/* ====== SECURITY ====== */
+.rls-block{
+  background:var(--dim);border:1px solid var(--line);border-radius:4px;
+  overflow:hidden;margin-bottom:16px;
+}
+.rls-head{
+  padding:10px 16px;border-bottom:1px solid var(--line);
+  background:rgba(220,38,38,0.08);
+  display:flex;align-items:center;gap:8px;
+}
+.rls-badge{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  border:1px solid;padding:1px 7px;border-radius:2px;
+}
+.rls-body{padding:4px 0;}
+.rls-row{
+  padding:8px 16px;border-bottom:1px solid rgba(30,47,92,0.4);
+  display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:start;
+  font-size:12px;
+}
+.rls-row:last-child{border-bottom:none;}
+.rls-policy{color:var(--red);font-family:'IBM Plex Mono',monospace;}
+.rls-sql{color:#86EFAC;font-family:'IBM Plex Mono',monospace;font-size:11px;}
+
+/* ====== JOURNEY ====== */
+.journey-steps{display:flex;flex-direction:column;gap:0;}
+.journey-step{
+  display:grid;grid-template-columns:60px 1fr;gap:24px;
+  position:relative;
+}
+.journey-step:not(:last-child)::before{
+  content:'';
+  position:absolute;left:29px;top:48px;bottom:-24px;
+  width:2px;background:var(--line);
+}
+.step-num{
+  width:42px;height:42px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-weight:800;font-size:16px;
+  flex-shrink:0;position:relative;z-index:1;
+}
+.step-body{padding-top:6px;padding-bottom:32px;}
+.step-title{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:#fff;margin-bottom:8px;}
+.step-desc{color:var(--muted);font-size:13px;line-height:1.65;margin-bottom:12px;}
+.step-detail{
+  background:rgba(15,31,82,0.4);border:1px solid var(--line);
+  border-radius:4px;padding:12px 16px;font-size:12px;
+}
+.step-branch{
+  display:flex;gap:12px;margin-top:10px;
+  flex-wrap:wrap;
+}
+.branch-yes,.branch-no{
+  flex:1;min-width:160px;
+  border-radius:4px;padding:10px 14px;font-size:12px;
+  border:1px solid;
+}
+.branch-yes{border-color:rgba(22,163,74,0.4);background:rgba(22,163,74,0.07);}
+.branch-no{border-color:rgba(220,38,38,0.3);background:rgba(220,38,38,0.06);}
+.branch-label{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+.branch-yes .branch-label{color:var(--green);}
+.branch-no .branch-label{color:var(--red);}
+
+/* ====== PRICING ====== */
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+.price-card{
+  border:1px solid var(--line);border-radius:4px;padding:28px;
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.price-card.featured{border-color:var(--gold);background:rgba(201,160,21,0.05);}
+.price-card.featured::before{
+  content:'CEL MAI POPULAR';
+  position:absolute;top:16px;right:-28px;
+  background:var(--gold);color:var(--navy);
+  font-family:'Syne',sans-serif;font-size:9px;font-weight:800;
+  letter-spacing:2px;padding:4px 40px;
+  transform:rotate(45deg);
+}
+.price-plan{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.price-amount{font-family:'Syne',sans-serif;font-size:48px;font-weight:800;color:#fff;line-height:1;}
+.price-unit{font-size:14px;color:var(--muted);}
+.price-desc{font-size:13px;color:var(--muted);margin:12px 0 20px;line-height:1.6;}
+.price-features{flex:1;margin-bottom:24px;}
+.price-feat{
+  display:flex;align-items:flex-start;gap:8px;
+  padding:6px 0;border-bottom:1px solid var(--line);
+  font-size:12px;
+}
+.price-feat:last-child{border-bottom:none;}
+.feat-check{color:var(--green);flex-shrink:0;font-size:12px;margin-top:1px;}
+.feat-x{color:var(--muted);flex-shrink:0;font-size:12px;margin-top:1px;}
+.price-cta{
+  display:block;width:100%;padding:12px;
+  border:1px solid;border-radius:3px;
+  text-align:center;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:1px;cursor:pointer;text-decoration:none;
+  transition:all 0.2s;
+}
+.price-cta-gold{border-color:var(--gold);color:var(--gold);}
+.price-cta-gold:hover{background:var(--gold);color:var(--navy);}
+.price-cta-white{border-color:#fff;color:#fff;}
+.price-cta-white:hover{background:#fff;color:var(--navy);}
+
+/* ====== API ENDPOINTS ====== */
+.endpoint{
+  display:grid;grid-template-columns:80px 200px 1fr auto;gap:12px;align-items:start;
+  padding:12px 16px;border-bottom:1px solid var(--line);font-size:12px;
+}
+.endpoint:last-child{border-bottom:none;}
+.method{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;
+  padding:2px 8px;border-radius:2px;text-align:center;
+}
+.get{background:rgba(22,163,74,0.15);color:#4ADE80;}
+.post{background:rgba(45,82,180,0.15);color:#93C5FD;}
+.put{background:rgba(217,119,6,0.15);color:#FCD34D;}
+.delete{background:rgba(220,38,38,0.15);color:#FCA5A5;}
+.patch{background:rgba(124,58,237,0.15);color:#C4B5FD;}
+.ep-path{font-family:'IBM Plex Mono',monospace;color:var(--text);}
+.ep-desc{color:var(--muted);}
+.ep-auth{font-size:10px;color:var(--teal);font-family:'Syne',sans-serif;letter-spacing:1px;}
+
+/* ====== TAGS / BADGES ====== */
+.tag{
+  display:inline-flex;align-items:center;gap:4px;
+  font-family:'Syne',sans-serif;font-size:9px;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;
+  padding:3px 10px;border-radius:2px;border:1px solid;
+}
+.tag-gold{border-color:var(--gold);color:var(--gold);background:rgba(201,160,21,0.08);}
+.tag-blue{border-color:var(--accent);color:#60A5FA;background:rgba(45,82,180,0.08);}
+.tag-green{border-color:var(--green);color:#4ADE80;background:rgba(22,163,74,0.08);}
+.tag-red{border-color:var(--red);color:#FCA5A5;background:rgba(220,38,38,0.08);}
+.tag-purple{border-color:var(--purple);color:#C4B5FD;background:rgba(124,58,237,0.08);}
+.tag-teal{border-color:var(--teal);color:#2DD4BF;background:rgba(13,148,136,0.08);}
+.tag-orange{border-color:var(--orange);color:#FCD34D;background:rgba(217,119,6,0.08);}
+
+/* ====== MISC ====== */
+.divider{border:none;border-top:1px solid var(--line);margin:24px 0;}
+.note{
+  display:flex;gap:12px;align-items:flex-start;
+  background:rgba(45,82,180,0.08);border:1px solid rgba(45,82,180,0.25);
+  border-radius:4px;padding:14px 16px;font-size:12px;color:var(--muted);
+  margin-top:16px;
+}
+.note-icon{flex-shrink:0;font-size:16px;}
+.warn{
+  display:flex;gap:12px;align-items:flex-start;
+  background:rgba(217,119,6,0.07);border:1px solid rgba(217,119,6,0.25);
+  border-radius:4px;padding:14px 16px;font-size:12px;color:var(--muted);
+}
+.warn-icon{flex-shrink:0;font-size:16px;}
+.label{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;display:block;}
+ul.checklist{list-style:none;display:flex;flex-direction:column;gap:6px;}
+ul.checklist li{display:flex;gap:8px;align-items:flex-start;font-size:13px;}
+ul.checklist li::before{content:'→';color:var(--gold);flex-shrink:0;margin-top:0px;}
+ul.checks li::before{content:'✓';color:var(--green);}
+ul.crosses li::before{content:'✕';color:var(--red);}
+
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:20px 0;}
+.stat{
+  background:rgba(6,13,31,0.6);border:1px solid var(--line);
+  border-radius:4px;padding:16px;
+}
+.stat-v{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#fff;line-height:1;}
+.stat-l{font-size:11px;color:var(--muted);margin-top:4px;}
+.stat-sub{font-size:10px;color:var(--gold);font-family:'IBM Plex Mono',monospace;margin-top:2px;}
+
+.arch-layer{
+  border:1px solid var(--line);border-radius:4px;overflow:hidden;margin-bottom:16px;
+}
+.arch-layer-head{
+  padding:10px 20px;background:rgba(255,255,255,0.03);
+  border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.arch-layer-title{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+.arch-layer-body{padding:16px 20px;display:flex;flex-wrap:wrap;gap:12px;}
+.arch-node{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid var(--line);border-radius:3px;padding:8px 14px;
+  font-size:12px;background:rgba(6,13,31,0.5);
+}
+.arch-node-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+
+/* ====== ROADMAP ====== */
+.roadmap{display:flex;flex-direction:column;gap:20px;}
+.rm-phase{
+  display:grid;grid-template-columns:140px 1fr;gap:24px;
+  border:1px solid var(--line);border-radius:4px;overflow:hidden;
+}
+.rm-head{
+  padding:20px;display:flex;flex-direction:column;justify-content:center;
+  border-right:1px solid var(--line);background:rgba(6,13,31,0.5);
+}
+.rm-phase-num{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;margin-bottom:4px;}
+.rm-phase-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#fff;margin-bottom:4px;}
+.rm-timeline{font-size:11px;color:var(--gold);}
+.rm-body{padding:20px;}
+.rm-items{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;}
+.rm-item{
+  background:rgba(6,13,31,0.5);border:1px solid var(--line);
+  border-radius:3px;padding:10px 12px;font-size:12px;
+}
+.rm-item-title{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:#fff;margin-bottom:3px;}
+.rm-item-desc{font-size:11px;color:var(--muted);}
+
+/* ====== FOOTER ====== */
+#footer{padding:56px 0;border-top:1px solid var(--line);}
+.footer-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px;}
+.footer-col-title{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;}
+.footer-item{font-size:12px;color:var(--muted);padding:4px 0;}
+.footer-bottom{
+  margin-top:40px;padding-top:24px;border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:11px;color:var(--muted);flex-wrap:wrap;gap:12px;
+}
+
+/* ====== NAV TOC ====== */
+.toc{
+  position:fixed;right:24px;top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:6px;z-index:100;
+}
+.toc-item{
+  display:flex;align-items:center;gap:8px;cursor:pointer;
+  text-decoration:none;
+}
+.toc-dot{width:6px;height:6px;border-radius:50%;background:var(--muted);transition:all 0.2s;flex-shrink:0;}
+.toc-label{font-family:'Syne',sans-serif;font-size:10px;color:var(--muted);letter-spacing:1px;opacity:0;transition:opacity 0.2s;}
+.toc-item:hover .toc-dot{background:var(--gold);transform:scale(1.4);}
+.toc-item:hover .toc-label{opacity:1;}
+@media(max-width:1100px){.toc{display:none;}}
+@media(max-width:768px){
+  .grid-12,.grid-21{grid-template-columns:1fr;}
+  .rm-phase{grid-template-columns:1fr;}
+  .rm-head{border-right:none;border-bottom:1px solid var(--line);}
+  .db-row{grid-template-columns:30px 1fr 1fr;}
+  .db-cell:nth-child(4){display:none;}
+  .endpoint{grid-template-columns:60px 1fr 1fr;}
+  .endpoint .ep-auth{display:none;}
+  .footer-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- TABLE OF CONTENTS -->
+<nav class="toc" aria-label="Navigare rapida">
+  <a class="toc-item" href="#cover"><span class="toc-dot"></span><span class="toc-label">Cover</span></a>
+  <a class="toc-item" href="#s1"><span class="toc-dot"></span><span class="toc-label">Arhitectura</span></a>
+  <a class="toc-item" href="#s2"><span class="toc-dot"></span><span class="toc-label">Baza de date</span></a>
+  <a class="toc-item" href="#s3"><span class="toc-dot"></span><span class="toc-label">Securitate RLS</span></a>
+  <a class="toc-item" href="#s4"><span class="toc-dot"></span><span class="toc-label">User Journey</span></a>
+  <a class="toc-item" href="#s5"><span class="toc-dot"></span><span class="toc-label">Backend API</span></a>
+  <a class="toc-item" href="#s6"><span class="toc-dot"></span><span class="toc-label">Integrari</span></a>
+  <a class="toc-item" href="#s7"><span class="toc-dot"></span><span class="toc-label">AI Engine</span></a>
+  <a class="toc-item" href="#s8"><span class="toc-dot"></span><span class="toc-label">Plati Stripe</span></a>
+  <a class="toc-item" href="#s9"><span class="toc-dot"></span><span class="toc-label">Autentificare</span></a>
+  <a class="toc-item" href="#s10"><span class="toc-dot"></span><span class="toc-label">Preturi</span></a>
+  <a class="toc-item" href="#s11"><span class="toc-dot"></span><span class="toc-label">Roadmap</span></a>
+</nav>
+
+<!-- ============================== COVER ============================== -->
+<section id="cover">
+<div class="wrap">
+  <div class="version-badge">// DOCUMENT CONFIDENTIAL — REV 2.0.0</div>
+  <div class="cover-tag"><span></span>Enterprise SaaS Blueprint</div>
+  <h1>
+    AGENT<span class="gold-word">FLOW</span><br/>
+    ROMANIA
+  </h1>
+  <div class="cover-sub">Platforma CRM pentru Agenti Imobiliari — Versiunea 2 Enterprise</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:900px;margin-bottom:40px;">
+    <div class="card card-gold">
+      <div class="label">Obiectiv principal</div>
+      <p style="font-size:15px;line-height:1.6;">Tranzitia de la MVP cu LocalStorage la o platforma SaaS enterprise cu autentificare reala, baza de date cloud (Supabase/PostgreSQL), plati automate (Stripe), AI generativ (OpenAI) si securitate la nivel de rand (RLS).</p>
+    </div>
+    <div class="card card-blue">
+      <div class="label">Stack complet V2</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;">
+        <span class="tag tag-blue">Next.js 14 App Router</span>
+        <span class="tag tag-blue">TypeScript</span>
+        <span class="tag tag-teal">Supabase Auth</span>
+        <span class="tag tag-teal">PostgreSQL + RLS</span>
+        <span class="tag tag-gold">Stripe Payments</span>
+        <span class="tag tag-purple">OpenAI GPT-4o</span>
+        <span class="tag tag-green">Vercel Deploy</span>
+        <span class="tag tag-orange">Redis Cache</span>
+        <span class="tag tag-red">Resend Email</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-row" style="max-width:900px;">
+    <div class="stat"><div class="stat-v">5</div><div class="stat-l">Tabele principale</div><div class="stat-sub">PostgreSQL + RLS</div></div>
+    <div class="stat"><div class="stat-v">23</div><div class="stat-l">Endpoint-uri API</div><div class="stat-sub">REST + Webhooks</div></div>
+    <div class="stat"><div class="stat-v">12</div><div class="stat-l">Politici RLS</div><div class="stat-sub">Zero-trust DB</div></div>
+    <div class="stat"><div class="stat-v">4</div><div class="stat-l">Integrari externe</div><div class="stat-sub">Stripe, OpenAI, Resend, Redis</div></div>
+    <div class="stat"><div class="stat-v">3</div><div class="stat-l">Planuri de abonament</div><div class="stat-sub">Solo · Pro · Agentie</div></div>
+  </div>
+
+  <div class="cover-meta">
+    <div class="meta-item"><span class="meta-label">Clasificare</span><span class="meta-value">Confidential — Intern</span></div>
+    <div class="meta-item"><span class="meta-label">Versiune</span><span class="meta-value">V2.0 Enterprise</span></div>
+    <div class="meta-item"><span class="meta-label">Stack</span><span class="meta-value">Next.js + Supabase + Stripe</span></div>
+    <div class="meta-item"><span class="meta-label">Valoare estimata blueprint</span><span class="meta-value gold">€ 1.200.000</span></div>
+    <div class="meta-item"><span class="meta-label">Timp dev estimat</span><span class="meta-value">12-16 saptamani</span></div>
+    <div class="meta-item"><span class="meta-label">Echipa minima</span><span class="meta-value">3 dev + 1 design + 1 PM</span></div>
+  </div>
+</div>
+</section>
+
+<!-- ============================== S1: ARHITECTURA ============================== -->
+<section class="section" id="s1">
+<div class="wrap">
+  <div class="section-header">
+    <div class="section-num">01 / 11</div>
+    <div class="section-title-block">
+      <h2>Arhitectura Enterprise</h2>
+      <p class="section-desc">Structura completa a sistemului — de la frontend la baza de date — cu toate layerele, serviciile externe si fluxurile de date principale.</p>
+    </div>
+  </div>
+
+  <!-- Layers -->
+  <div class="arch-layer">
+    <div class="arch-layer-head">
+      <div class="arch-layer-title" style="color:#60A5FA;">Layer 1 — Client (Browser / Mobile)</div>
+      <span class="tag tag-blue">React / Next.js 14</span>
+    </div>
+    <div class="arch-layer-body">
+      <div class="arch-node"><span class="arch-node-dot" style="background:#60A5FA;"></span>Landing Page</div>
+      <div class="arch-node"><span class="arch-node-dot" style="background:#60A5FA;"></span>Dashboard App</div>
+      <div class="arch-node"><span class="arch-node-dot" style="background:#60A5FA;"></span>CRM Leaduri</div>
+      <div class="arch-node"><span class="arch-node-dot" style="background:#60A5FA;"></span>Proprietati</div>
+      <div class="arch-node"><span class="arch-node-dot" style="background:#60A5FA;"></span>Vizionari</div>
+      <div class="arch-node"><span class="arch-node-dot" style="background:#60A5FA;"></span>Follow-up</div>
+      <div class="arch-node"><span class="arch-node-dot" style="background:#60A5FA;"></span>Comisioane</div>
+      <div class="arch-node"><span class="arch-node-dot" style="background:#60A5FA;"></span>AI Anunturi</div>
+      <div class="arch-node"><span class="arch-node-dot" style="background:#60A5FA;"></span>Setari Cont</div>
+      <div class="arch-node"><span class="arch-node-dot" style="background:#60A5FA;"></span>Plati / Abonament</div>
+    </div>
+  </div>
+
+  <div style="text-align:center;color:var(--muted);font-size:20px;margin:4px 0;">↕</div>
+
+  <div class="arch-layer">
+    <div class="arch-layer-head">
+      <div class="arch-layer-title" style="color:#C4B5FD;">Layer 2 — API Server (Next.js Route Handlers)</div>
+      <span class="tag tag-purple">Vercel Edge / Node.js</span>
+    </div>
+    <div class="arch-layer-body">
+      <div class="arch-node"><span class="arch-node-dot" style="background:#C4B5FD;"></span>Auth Middleware</div>
+      <div class="arch-node"><span class="arch-node-dot" style="background:#C4B5FD;"></span>CRUD Leads API</div>
+      <div class="arch-node"><span class="arch-node-dot" style="background:#C4B5FD;"></span>CRUD Properties API</div>
+      <div class="arch-node"><span class="arch-node-dot" style="background:#C4B5FD;"></span>Viewings API</div>
+      <div class="arch-node"><span class="arch-node-dot" style="background:#C4B5FD;"></span>FollowUp API</div>
+      <div class="arch-node"><span class="arch-node-dot" style="background:#C4B5FD;"></span>AI Description API</div>
+      <div class="arch-node"><span class="arch-node-dot" style="background:#C4B5FD;"></span>Stripe Webhook Handler</div>
+      <div class="arch-node"><span class="arch-node-dot" style="background:#C4B5FD;"></span>Billing Portal API</div>
+      <div class="arch-node"><span class="arch-node-dot" style="background:#C4B5FD;"></span>Commission Calculator API</div>
+      <div class="arch-node"><span class="arch-node-dot" style="background:#C4B5FD;"></span>Analytics API</div>
+    </div>
+  </div>
+
+  <div style="text-align:center;color:var(--muted);font-size:20px;margin:4px 0;">↕</div>
+
+  <div class="arch-layer">
+    <div class="arch-layer-head">
+      <div class="arch-layer-title" style="color:#2DD4BF;">Layer 3 — Date & Servicii (Cloud)</div>
+      <span class="tag tag-teal">Managed Services</span>
+    </div>
+    <div class="arch-layer-body">
+      <div class="arch-node"><span class="arch-node-dot" style="background:#2DD4BF;"></span>Supabase PostgreSQL</div>
+      <div class="arch-node"><span class="arch-node-dot" style="background:#2DD4BF;"></span>Supabase Auth</div>
+      <div class="arch-node"><span class="arch-node-dot" style="background:#2DD4BF;"></span>Supabase Storage</div>
+      <div class="arch-node"><span class="arch-node-dot" style="background:#FCD34D;"></span>Stripe Payments</div>
+      <div class="arch-node"><span class="arch-node-dot" style="background:#A78BFA;"></span>OpenAI GPT-4o</div>
+      <div class="arch-node"><span class="arch-node-dot" style="background:#F97316;"></span>Redis (Upstash)</div>
+      <div class="arch-node"><span class="arch-node-dot" style="background:#F87171;"></span>Resend Email</div>
+      <div class="arch-node"><span class="arch-node-dot" style="background:#4ADE80;"></span>Vercel Analytics</div>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:24px;">
+    <span class="note-icon">ℹ</span>
+    <div>
+      <strong style="color:var(--text);">Principiu de securitate zero-trust:</strong> Nicio cerere de la client nu atinge direct baza de date. Tot traficul trece prin API Server care valideaza JWT-ul emis de Supabase Auth, verifica planul de abonament si abia apoi executa operatia cu privilegiile corecte. RLS de pe Supabase adauga un al doilea strat de protectie independent.
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============================== S2: BAZA DE DATE ============================== -->
+<section class="section" id="s2">
+<div class="wrap">
+  <div class="section-header">
+    <div class="section-num">02 / 11</div>
+    <div class="section-title-block">
+      <h2>Baza de Date — Schema Completa</h2>
+      <p class="section-desc">5 tabele principale in PostgreSQL (Supabase), cu relatii, indecsi si politici Row Level Security dedicate fiecarui agent.</p>
+    </div>
+  </div>
+
+  <!-- TABLE: users -->
+  <div style="margin-bottom:24px;">
+    <div class="db-table">
+      <div class="db-table-header">
+        <div class="tbl-icon">U</div>
+        <span>users</span>
+        <span class="tag tag-teal" style="margin-left:auto;">Supabase Auth Integration</span>
+      </div>
+      <div class="db-row header">
+        <div class="db-cell">#</div>
+        <div class="db-cell">Coloana</div>
+        <div class="db-cell">Tip</div>
+        <div class="db-cell">Constrangeri</div>
+      </div>
+      <div class="db-row"><div class="db-cell pk">1</div><div class="db-cell pk">id <span class="pk-badge">PK</span></div><div class="db-cell type">uuid</div><div class="db-cell constraint">DEFAULT gen_random_uuid() — generat de Supabase Auth</div></div>
+      <div class="db-row"><div class="db-cell">2</div><div class="db-cell">email</div><div class="db-cell type">text</div><div class="db-cell constraint">NOT NULL, UNIQUE</div></div>
+      <div class="db-row"><div class="db-cell">3</div><div class="db-cell">nume_complet</div><div class="db-cell type">text</div><div class="db-cell constraint">NOT NULL</div></div>
+      <div class="db-row"><div class="db-cell">4</div><div class="db-cell">telefon</div><div class="db-cell type">text</div><div class="db-cell constraint">NULL allowed</div></div>
+      <div class="db-row"><div class="db-cell">5</div><div class="db-cell">subscription_plan</div><div class="db-cell type">text</div><div class="db-cell constraint">DEFAULT 'free' — CHECK IN ('free','solo','pro','agency')</div></div>
+      <div class="db-row"><div class="db-cell">6</div><div class="db-cell">subscription_status</div><div class="db-cell type">text</div><div class="db-cell constraint">DEFAULT 'inactive' — CHECK IN ('active','inactive','past_due','canceled')</div></div>
+      <div class="db-row"><div class="db-cell">7</div><div class="db-cell">stripe_customer_id</div><div class="db-cell type">text</div><div class="db-cell constraint">UNIQUE — generat de Stripe la prima plata</div></div>
+      <div class="db-row"><div class="db-cell">8</div><div class="db-cell">stripe_subscription_id</div><div class="db-cell type">text</div><div class="db-cell constraint">UNIQUE — ID subscriptie activa Stripe</div></div>
+      <div class="db-row"><div class="db-cell">9</div><div class="db-cell">avatar_url</div><div class="db-cell type">text</div><div class="db-cell constraint">URL catre Supabase Storage</div></div>
+      <div class="db-row"><div class="db-cell">10</div><div class="db-cell">agency_name</div><div class="db-cell type">text</div><div class="db-cell constraint">NULL — completat de planul Agency</div></div>
+      <div class="db-row"><div class="db-cell">11</div><div class="db-cell">created_at</div><div class="db-cell type">timestamptz</div><div class="db-cell constraint">DEFAULT now()</div></div>
+      <div class="db-row"><div class="db-cell">12</div><div class="db-cell">updated_at</div><div class="db-cell type">timestamptz</div><div class="db-cell constraint">DEFAULT now() — trigger auto-update</div></div>
+    </div>
+  </div>
+
+  <!-- TABLE: leads -->
+  <div style="margin-bottom:24px;">
+    <div class="db-table">
+      <div class="db-table-header">
+        <div class="tbl-icon">L</div>
+        <span>leads</span>
+        <span class="tag tag-blue" style="margin-left:auto;">Izolat per agent — RLS activ</span>
+      </div>
+      <div class="db-row header">
+        <div class="db-cell">#</div>
+        <div class="db-cell">Coloana</div>
+        <div class="db-cell">Tip</div>
+        <div class="db-cell">Constrangeri</div>
+      </div>
+      <div class="db-row"><div class="db-cell pk">1</div><div class="db-cell pk">id <span class="pk-badge">PK</span></div><div class="db-cell type">uuid</div><div class="db-cell constraint">DEFAULT gen_random_uuid()</div></div>
+      <div class="db-row"><div class="db-cell">2</div><div class="db-cell fk">user_id <span class="fk-badge">FK</span></div><div class="db-cell type">uuid</div><div class="db-cell constraint">REFERENCES users(id) ON DELETE CASCADE — NOT NULL</div></div>
+      <div class="db-row"><div class="db-cell">3</div><div class="db-cell">nume</div><div class="db-cell type">text</div><div class="db-cell constraint">NOT NULL</div></div>
+      <div class="db-row"><div class="db-cell">4</div><div class="db-cell">telefon</div><div class="db-cell type">text</div><div class="db-cell constraint">NULL</div></div>
+      <div class="db-row"><div class="db-cell">5</div><div class="db-cell">email</div><div class="db-cell type">text</div><div class="db-cell constraint">NULL, validat cu CHECK (email ~* E'^.+@.+$')</div></div>
+      <div class="db-row"><div class="db-cell">6</div><div class="db-cell">status</div><div class="db-cell type">text</div><div class="db-cell constraint">CHECK IN ('nou','contactat','vizionare','negociere','inchis','pierdut')</div></div>
+      <div class="db-row"><div class="db-cell">7</div><div class="db-cell">sursa</div><div class="db-cell type">text</div><div class="db-cell constraint">CHECK IN ('website','facebook','olx','imobiliare_ro','recomandare','telefon','alt_canal')</div></div>
+      <div class="db-row"><div class="db-cell">8</div><div class="db-cell">buget_eur</div><div class="db-cell type">numeric(12,2)</div><div class="db-cell constraint">NULL — stocat in EUR</div></div>
+      <div class="db-row"><div class="db-cell">9</div><div class="db-cell">tip_interes</div><div class="db-cell type">text</div><div class="db-cell constraint">CHECK IN ('cumparare','inchiriere','vanzare')</div></div>
+      <div class="db-row"><div class="db-cell">10</div><div class="db-cell">locatie</div><div class="db-cell type">text</div><div class="db-cell constraint">NULL</div></div>
+      <div class="db-row"><div class="db-cell">11</div><div class="db-cell">notite</div><div class="db-cell type">text</div><div class="db-cell constraint">NULL — text lung</div></div>
+      <div class="db-row"><div class="db-cell">12</div><div class="db-cell">created_at</div><div class="db-cell type">timestamptz</div><div class="db-cell constraint">DEFAULT now()</div></div>
+      <div class="db-row"><div class="db-cell">13</div><div class="db-cell">updated_at</div><div class="db-cell type">timestamptz</div><div class="db-cell constraint">DEFAULT now() — trigger auto-update</div></div>
+    </div>
+    <div class="note">
+      <span class="note-icon">⚡</span>
+      <div><strong style="color:var(--text);">Indecsi critici pentru performanta:</strong>
+        <code style="color:#86EFAC;font-size:11px;display:block;margin-top:4px;">CREATE INDEX idx_leads_user_id ON leads(user_id); — toate query-urile filtreaza dupa user_id</code>
+        <code style="color:#86EFAC;font-size:11px;display:block;margin-top:2px;">CREATE INDEX idx_leads_status ON leads(user_id, status); — filtru frecvent in pipeline</code>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLE: properties -->
+  <div style="margin-bottom:24px;">
+    <div class="db-table">
+      <div class="db-table-header">
+        <div class="tbl-icon">P</div>
+        <span>properties</span>
+        <span class="tag tag-gold" style="margin-left:auto;">Cu generare descriere AI stocata</span>
+      </div>
+      <div class="db-row header">
+        <div class="db-cell">#</div>
+        <div class="db-cell">Coloana</div>
+        <div class="db-cell">Tip</div>
+        <div class="db-cell">Constrangeri</div>
+      </div>
+      <div class="db-row"><div class="db-cell pk">1</div><div class="db-cell pk">id <span class="pk-badge">PK</span></div><div class="db-cell type">uuid</div><div class="db-cell constraint">DEFAULT gen_random_uuid()</div></div>
+      <div class="db-row"><div class="db-cell">2</div><div class="db-cell fk">user_id <span class="fk-badge">FK</span></div><div class="db-cell type">uuid</div><div class="db-cell constraint">REFERENCES users(id) ON DELETE CASCADE</div></div>
+      <div class="db-row"><div class="db-cell">3</div><div class="db-cell">titlu</div><div class="db-cell type">text</div><div class="db-cell constraint">NOT NULL</div></div>
+      <div class="db-row"><div class="db-cell">4</div><div class="db-cell">tip</div><div class="db-cell type">text</div><div class="db-cell constraint">CHECK IN ('apartament','casa','teren','spatiu_comercial','vila','duplex')</div></div>
+      <div class="db-row"><div class="db-cell">5</div><div class="db-cell">oras</div><div class="db-cell type">text</div><div class="db-cell constraint">NOT NULL</div></div>
+      <div class="db-row"><div class="db-cell">6</div><div class="db-cell">zona</div><div class="db-cell type">text</div><div class="db-cell constraint">NULL</div></div>
+      <div class="db-row"><div class="db-cell">7</div><div class="db-cell">adresa</div><div class="db-cell type">text</div><div class="db-cell constraint">NULL</div></div>
+      <div class="db-row"><div class="db-cell">8</div><div class="db-cell">pret</div><div class="db-cell type">numeric(14,2)</div><div class="db-cell constraint">NOT NULL</div></div>
+      <div class="db-row"><div class="db-cell">9</div><div class="db-cell">moneda</div><div class="db-cell type">text</div><div class="db-cell constraint">DEFAULT 'EUR' — CHECK IN ('EUR','RON')</div></div>
+      <div class="db-row"><div class="db-cell">10</div><div class="db-cell">suprafata_mp</div><div class="db-cell type">numeric(8,2)</div><div class="db-cell constraint">NULL</div></div>
+      <div class="db-row"><div class="db-cell">11</div><div class="db-cell">nr_camere</div><div class="db-cell type">smallint</div><div class="db-cell constraint">NULL</div></div>
+      <div class="db-row"><div class="db-cell">12</div><div class="db-cell">comision_procent</div><div class="db-cell type">numeric(5,2)</div><div class="db-cell constraint">DEFAULT 2.0</div></div>
+      <div class="db-row"><div class="db-cell">13</div><div class="db-cell">status</div><div class="db-cell type">text</div><div class="db-cell constraint">CHECK IN ('activa','rezervata','vanduta','inchiriata')</div></div>
+      <div class="db-row"><div class="db-cell">14</div><div class="db-cell">descriere_manuala</div><div class="db-cell type">text</div><div class="db-cell constraint">NULL</div></div>
+      <div class="db-row"><div class="db-cell">15</div><div class="db-cell">descriere_ai</div><div class="db-cell type">text</div><div class="db-cell constraint">NULL — stocat dupa apel OpenAI</div></div>
+      <div class="db-row"><div class="db-cell">16</div><div class="db-cell">features</div><div class="db-cell type">text[]</div><div class="db-cell constraint">NULL — array PostgreSQL nativ</div></div>
+      <div class="db-row"><div class="db-cell">17</div><div class="db-cell">photos_urls</div><div class="db-cell type">text[]</div><div class="db-cell constraint">NULL — URL-uri Supabase Storage</div></div>
+      <div class="db-row"><div class="db-cell">18</div><div class="db-cell">created_at</div><div class="db-cell type">timestamptz</div><div class="db-cell constraint">DEFAULT now()</div></div>
+    </div>
+  </div>
+
+  <!-- TABLE: viewings + followups side by side -->
+  <div class="grid-2">
+    <div class="db-table">
+      <div class="db-table-header">
+        <div class="tbl-icon">V</div>
+        <span>viewings</span>
+      </div>
+      <div class="db-row header">
+        <div class="db-cell">#</div>
+        <div class="db-cell">Coloana</div>
+        <div class="db-cell">Tip</div>
+        <div class="db-cell">Note</div>
+      </div>
+      <div class="db-row"><div class="db-cell pk">1</div><div class="db-cell pk">id <span class="pk-badge">PK</span></div><div class="db-cell type">uuid</div><div class="db-cell constraint">gen_random_uuid()</div></div>
+      <div class="db-row"><div class="db-cell">2</div><div class="db-cell fk">user_id <span class="fk-badge">FK</span></div><div class="db-cell type">uuid</div><div class="db-cell constraint">→ users(id)</div></div>
+      <div class="db-row"><div class="db-cell">3</div><div class="db-cell fk">lead_id <span class="fk-badge">FK</span></div><div class="db-cell type">uuid</div><div class="db-cell constraint">→ leads(id)</div></div>
+      <div class="db-row"><div class="db-cell">4</div><div class="db-cell fk">property_id <span class="fk-badge">FK</span></div><div class="db-cell type">uuid</div><div class="db-cell constraint">→ properties(id)</div></div>
+      <div class="db-row"><div class="db-cell">5</div><div class="db-cell">data_vizionarii</div><div class="db-cell type">date</div><div class="db-cell constraint">NOT NULL</div></div>
+      <div class="db-row"><div class="db-cell">6</div><div class="db-cell">ora</div><div class="db-cell type">time</div><div class="db-cell constraint">NOT NULL</div></div>
+      <div class="db-row"><div class="db-cell">7</div><div class="db-cell">status</div><div class="db-cell type">text</div><div class="db-cell constraint">programata/finalizata/anulata</div></div>
+      <div class="db-row"><div class="db-cell">8</div><div class="db-cell">notite</div><div class="db-cell type">text</div><div class="db-cell constraint">NULL</div></div>
+      <div class="db-row"><div class="db-cell">9</div><div class="db-cell">reminder_sent</div><div class="db-cell type">boolean</div><div class="db-cell constraint">DEFAULT false</div></div>
+      <div class="db-row"><div class="db-cell">10</div><div class="db-cell">created_at</div><div class="db-cell type">timestamptz</div><div class="db-cell constraint">now()</div></div>
+    </div>
+
+    <div class="db-table">
+      <div class="db-table-header">
+        <div class="tbl-icon">F</div>
+        <span>followups</span>
+      </div>
+      <div class="db-row header">
+        <div class="db-cell">#</div>
+        <div class="db-cell">Coloana</div>
+        <div class="db-cell">Tip</div>
+        <div class="db-cell">Note</div>
+      </div>
+      <div class="db-row"><div class="db-cell pk">1</div><div class="db-cell pk">id <span class="pk-badge">PK</span></div><div class="db-cell type">uuid</div><div class="db-cell constraint">gen_random_uuid()</div></div>
+      <div class="db-row"><div class="db-cell">2</div><div class="db-cell fk">user_id <span class="fk-badge">FK</span></div><div class="db-cell type">uuid</div><div class="db-cell constraint">→ users(id)</div></div>
+      <div class="db-row"><div class="db-cell">3</div><div class="db-cell fk">lead_id <span class="fk-badge">FK</span></div><div class="db-cell type">uuid</div><div class="db-cell constraint">→ leads(id) NULLABLE</div></div>
+      <div class="db-row"><div class="db-cell">4</div><div class="db-cell">canal</div><div class="db-cell type">text</div><div class="db-cell constraint">whatsapp/email/telefon</div></div>
+      <div class="db-row"><div class="db-cell">5</div><div class="db-cell">sarcina</div><div class="db-cell type">text</div><div class="db-cell constraint">NOT NULL</div></div>
+      <div class="db-row"><div class="db-cell">6</div><div class="db-cell">scadenta</div><div class="db-cell type">date</div><div class="db-cell constraint">NOT NULL</div></div>
+      <div class="db-row"><div class="db-cell">7</div><div class="db-cell">prioritate</div><div class="db-cell type">text</div><div class="db-cell constraint">ridicata/medie/scazuta</div></div>
+      <div class="db-row"><div class="db-cell">8</div><div class="db-cell">status</div><div class="db-cell type">text</div><div class="db-cell constraint">nefinalizat/finalizat</div></div>
+      <div class="db-row"><div class="db-cell">9</div><div class="db-cell">template_mesaj</div><div class="db-cell type">text</div><div class="db-cell constraint">NULL — mesaj pregătit</div></div>
+      <div class="db-row"><div class="db-cell">10</div><div class="db-cell">finalizat_la</div><div class="db-cell type">timestamptz</div><div class="db-cell constraint">NULL — setat la finalizare</div></div>
+    </div>
+  </div>
+
+  <!-- SQL trigger example -->
+  <div class="code-block" style="margin-top:24px;">
+    <div class="code-header">
+      <span class="code-lang">SQL — Trigger auto-updated_at (aplicat pe toate tabelele)</span>
+      <div class="code-dots">
+        <div class="code-dot" style="background:#FF5F57;"></div>
+        <div class="code-dot" style="background:#FFBD2E;"></div>
+        <div class="code-dot" style="background:#28CA41;"></div>
+      </div>
+    </div>
+    <pre><span class="c">-- Functie unica, aplicata cu trigger pe fiecare tabel</span>
+<span class="k">CREATE OR REPLACE FUNCTION</span> <span class="fn">update_updated_at_column</span>()
+<span class="k">RETURNS TRIGGER AS</span> $$
+<span class="k">BEGIN</span>
+  NEW.updated_at <span class="p">=</span> <span class="fn">now</span>();
+  <span class="k">RETURN</span> NEW;
+<span class="k">END</span>;
+$$ <span class="k">LANGUAGE</span> plpgsql;
+
+<span class="k">CREATE TRIGGER</span> <span class="n">set_timestamp_leads</span>
+  <span class="k">BEFORE UPDATE ON</span> leads
+  <span class="k">FOR EACH ROW EXECUTE FUNCTION</span> <span class="fn">update_updated_at_column</span>();
+
+<span class="c">-- Acelasi trigger se aplica pe: properties, viewings, followups, users</span></pre>
+  </div>
+</div>
+</section>
+
+<!-- ============================== S3: SECURITATE RLS ============================== -->
+<section class="section" id="s3">
+<div class="wrap">
+  <div class="section-header">
+    <div class="section-num">03 / 11</div>
+    <div class="section-title-block">
+      <h2>Securitate — Row Level Security</h2>
+      <p class="section-desc">Cel mai critic punct al intregii platforme. Regulile RLS din Supabase garanteaza izolarea completa a datelor intre agenti, independent de logica din aplicatie.</p>
+    </div>
+  </div>
+
+  <div class="warn" style="margin-bottom:28px;">
+    <span class="warn-icon">⚠</span>
+    <div><strong style="color:#FCD34D;">Principiu fundamental:</strong> Chiar daca un atacator exploateaza un bug in codul aplicatiei si trimite un request cu un alt user_id, baza de date <strong style="color:#FCD34D;">refuza automat</strong> cererea prin politicile RLS. Securitatea nu depinde exclusiv de cod — baza de date este ultimul zid.</div>
+  </div>
+
+  <!-- LEADS RLS -->
+  <div class="rls-block">
+    <div class="rls-head">
+      <span class="rls-badge" style="border-color:var(--red);color:var(--red);">TABEL</span>
+      <span style="font-family:'Syne',sans-serif;font-weight:700;color:#fff;">leads</span>
+      <span class="tag tag-red" style="margin-left:auto;">RLS ENABLED — FORCE ROW SECURITY</span>
+    </div>
+    <div class="rls-body">
+      <div class="rls-row header" style="background:rgba(255,255,255,0.02);border-bottom:1px solid var(--line);">
+        <div style="color:var(--muted);font-size:10px;letter-spacing:1px;text-transform:uppercase;font-family:'Syne',sans-serif;">Politica</div>
+        <div style="color:var(--muted);font-size:10px;letter-spacing:1px;text-transform:uppercase;font-family:'Syne',sans-serif;">Definitie SQL</div>
+      </div>
+      <div class="rls-row"><div class="rls-policy">SELECT (citire)</div><div class="rls-sql">USING (auth.uid() = user_id)</div></div>
+      <div class="rls-row"><div class="rls-policy">INSERT (creare)</div><div class="rls-sql">WITH CHECK (auth.uid() = user_id)</div></div>
+      <div class="rls-row"><div class="rls-policy">UPDATE (editare)</div><div class="rls-sql">USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id)</div></div>
+      <div class="rls-row"><div class="rls-policy">DELETE (stergere)</div><div class="rls-sql">USING (auth.uid() = user_id)</div></div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:20px;">
+    <div class="rls-block">
+      <div class="rls-head">
+        <span class="rls-badge" style="border-color:var(--red);color:var(--red);">TABEL</span>
+        <span style="font-family:'Syne',sans-serif;font-weight:700;color:#fff;">properties</span>
+      </div>
+      <div class="rls-body">
+        <div class="rls-row"><div class="rls-policy">SELECT</div><div class="rls-sql">USING (auth.uid() = user_id)</div></div>
+        <div class="rls-row"><div class="rls-policy">INSERT</div><div class="rls-sql">WITH CHECK (auth.uid() = user_id)</div></div>
+        <div class="rls-row"><div class="rls-policy">UPDATE</div><div class="rls-sql">USING (auth.uid() = user_id)</div></div>
+        <div class="rls-row"><div class="rls-policy">DELETE</div><div class="rls-sql">USING (auth.uid() = user_id)</div></div>
+      </div>
+    </div>
+    <div class="rls-block">
+      <div class="rls-head">
+        <span class="rls-badge" style="border-color:var(--red);color:var(--red);">TABEL</span>
+        <span style="font-family:'Syne',sans-serif;font-weight:700;color:#fff;">viewings + followups</span>
+      </div>
+      <div class="rls-body">
+        <div class="rls-row"><div class="rls-policy">SELECT</div><div class="rls-sql">USING (auth.uid() = user_id)</div></div>
+        <div class="rls-row"><div class="rls-policy">INSERT</div><div class="rls-sql">WITH CHECK (auth.uid() = user_id)</div></div>
+        <div class="rls-row"><div class="rls-policy">UPDATE</div><div class="rls-sql">USING (auth.uid() = user_id)</div></div>
+        <div class="rls-row"><div class="rls-policy">DELETE</div><div class="rls-sql">USING (auth.uid() = user_id)</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- USERS table — special RLS -->
+  <div class="rls-block" style="margin-bottom:24px;">
+    <div class="rls-head">
+      <span class="rls-badge" style="border-color:#FCD34D;color:#FCD34D;">SPECIAL</span>
+      <span style="font-family:'Syne',sans-serif;font-weight:700;color:#fff;">users — politici speciale</span>
+    </div>
+    <div class="rls-body">
+      <div class="rls-row"><div class="rls-policy">SELECT propriu</div><div class="rls-sql">USING (auth.uid() = id) — un agent vede DOAR profilul sau</div></div>
+      <div class="rls-row"><div class="rls-policy">UPDATE propriu</div><div class="rls-sql">USING (auth.uid() = id) — poate edita DOAR profilul sau</div></div>
+      <div class="rls-row"><div class="rls-policy">INSERT (admin only)</div><div class="rls-sql">WITH CHECK (auth.role() = 'service_role') — crearea vine din webhook Supabase Auth</div></div>
+      <div class="rls-row"><div class="rls-policy">UPDATE plan (admin)</div><div class="rls-sql">USING (auth.role() = 'service_role') — planul se actualizeaza DOAR prin Stripe Webhook, niciodata din client</div></div>
+    </div>
+  </div>
+
+  <!-- Code example RLS activation -->
+  <div class="code-block">
+    <div class="code-header">
+      <span class="code-lang">SQL — Activare RLS si creare politici (exemplu complet pentru tabelul leads)</span>
+      <div class="code-dots">
+        <div class="code-dot" style="background:#FF5F57;"></div>
+        <div class="code-dot" style="background:#FFBD2E;"></div>
+        <div class="code-dot" style="background:#28CA41;"></div>
+      </div>
+    </div>
+    <pre><span class="c">-- Pasul 1: Activam RLS pe tabel</span>
+<span class="k">ALTER TABLE</span> leads <span class="k">ENABLE ROW LEVEL SECURITY</span>;
+<span class="k">ALTER TABLE</span> leads <span class="k">FORCE ROW LEVEL SECURITY</span>; <span class="c">-- si pentru owner-ul tabelului</span>
+
+<span class="c">-- Pasul 2: Cream politicile pe fiecare operatie CRUD</span>
+
+<span class="k">CREATE POLICY</span> <span class="n">"Agent poate vedea doar leadurile sale"</span>
+  <span class="k">ON</span> leads <span class="k">FOR SELECT</span>
+  <span class="k">USING</span> (<span class="fn">auth.uid</span>() <span class="p">= </span>user_id);
+
+<span class="k">CREATE POLICY</span> <span class="n">"Agent poate crea leaduri proprii"</span>
+  <span class="k">ON</span> leads <span class="k">FOR INSERT</span>
+  <span class="k">WITH CHECK</span> (<span class="fn">auth.uid</span>() <span class="p">= </span>user_id);
+
+<span class="k">CREATE POLICY</span> <span class="n">"Agent poate edita leaduri proprii"</span>
+  <span class="k">ON</span> leads <span class="k">FOR UPDATE</span>
+  <span class="k">USING</span> (<span class="fn">auth.uid</span>() <span class="p">= </span>user_id)
+  <span class="k">WITH CHECK</span> (<span class="fn">auth.uid</span>() <span class="p">= </span>user_id);
+
+<span class="k">CREATE POLICY</span> <span class="n">"Agent poate sterge leaduri proprii"</span>
+  <span class="k">ON</span> leads <span class="k">FOR DELETE</span>
+  <span class="k">USING</span> (<span class="fn">auth.uid</span>() <span class="p">= </span>user_id);
+
+<span class="c">-- Pasul 3: Plan check — limiteaza numarul de leaduri per plan</span>
+<span class="k">CREATE OR REPLACE FUNCTION</span> <span class="fn">check_lead_limit</span>() <span class="k">RETURNS TRIGGER AS</span> $$
+<span class="k">DECLARE</span>
+  lead_count <span class="v">INTEGER</span>;
+  user_plan <span class="v">TEXT</span>;
+  max_leads <span class="v">INTEGER</span>;
+<span class="k">BEGIN</span>
+  <span class="k">SELECT</span> subscription_plan <span class="k">INTO</span> user_plan <span class="k">FROM</span> users <span class="k">WHERE</span> id <span class="p">=</span> NEW.user_id;
+  max_leads <span class="p">:=</span> <span class="k">CASE</span> user_plan
+    <span class="k">WHEN</span> <span class="s">'free'</span>    <span class="k">THEN</span> <span class="p">10</span>
+    <span class="k">WHEN</span> <span class="s">'solo'</span>    <span class="k">THEN</span> <span class="p">50</span>
+    <span class="k">WHEN</span> <span class="s">'pro'</span>     <span class="k">THEN</span> <span class="p">9999</span>
+    <span class="k">WHEN</span> <span class="s">'agency'</span>  <span class="k">THEN</span> <span class="p">9999</span>
+    <span class="k">ELSE</span> <span class="p">10</span>
+  <span class="k">END</span>;
+  <span class="k">SELECT COUNT</span>(*) <span class="k">INTO</span> lead_count <span class="k">FROM</span> leads <span class="k">WHERE</span> user_id <span class="p">=</span> NEW.user_id;
+  <span class="k">IF</span> lead_count <span class="p">>=</span> max_leads <span class="k">THEN</span>
+    <span class="k">RAISE EXCEPTION</span> <span class="s">'Limita de leaduri atinsa pentru planul %'</span>, user_plan;
+  <span class="k">END IF</span>;
+  <span class="k">RETURN NEW</span>;
+<span class="k">END</span>;
+$$ <span class="k">LANGUAGE</span> plpgsql;
+
+<span class="k">CREATE TRIGGER</span> enforce_lead_limit <span class="k">BEFORE INSERT ON</span> leads
+  <span class="k">FOR EACH ROW EXECUTE FUNCTION</span> <span class="fn">check_lead_limit</span>();</pre>
+  </div>
+</div>
+</section>
+
+<!-- ============================== S4: USER JOURNEY ============================== -->
+<section class="section" id="s4">
+<div class="wrap">
+  <div class="section-header">
+    <div class="section-num">04 / 11</div>
+    <div class="section-title-block">
+      <h2>User Journey — Vizitator → Client Platitor</h2>
+      <p class="section-desc">Traseul complet al unui agent imobiliar de la primul contact cu platforma pana la utilizarea zilnica a contului activ.</p>
+    </div>
+  </div>
+
+  <div class="journey-steps">
+    <!-- Step 1 -->
+    <div class="journey-step">
+      <div class="step-num" style="background:rgba(201,160,21,0.15);border:2px solid var(--gold);color:var(--gold);">1</div>
+      <div class="step-body">
+        <div class="step-title">Descoperire — Landing Page (agentflow.ro)</div>
+        <p class="step-desc">Vizitatorul intra pe landing page prin reclama Facebook/Google, recomandare sau cautare organica. Vede hero-ul premium, beneficiile, testimonialele si sectiunea de preturi.</p>
+        <div class="step-detail">
+          <div class="label">Actiuni disponibile pe landing page</div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;">
+            <div style="flex:1;min-width:180px;padding:10px;background:rgba(201,160,21,0.08);border:1px solid rgba(201,160,21,0.2);border-radius:3px;font-size:12px;">
+              <strong style="color:var(--gold);">CTA Principal:</strong> "Incepe gratuit" → /register
+            </div>
+            <div style="flex:1;min-width:180px;padding:10px;background:rgba(45,82,180,0.08);border:1px solid rgba(45,82,180,0.2);border-radius:3px;font-size:12px;">
+              <strong style="color:#60A5FA);">CTA Secundar:</strong> "Cumpara Plan Solo" → /register?plan=solo
+            </div>
+            <div style="flex:1;min-width:180px;padding:10px;background:rgba(255,255,255,0.04);border:1px solid var(--line);border-radius:3px;font-size:12px;">
+              <strong style="color:var(--muted);">Demo Live:</strong> "Vezi demo-ul" → /demo (read-only)
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="journey-step">
+      <div class="step-num" style="background:rgba(45,82,180,0.15);border:2px solid var(--accent);color:#60A5FA;">2</div>
+      <div class="step-body">
+        <div class="step-title">Inregistrare — Creare Cont cu Supabase Auth</div>
+        <p class="step-desc">Pagina /register cu formular simplu: Nume complet, Email, Parola. Optinal: Google OAuth si Facebook OAuth prin Supabase Social Providers. La submit, Supabase Auth creeaza contul si trimite email de confirmare.</p>
+        <div class="step-detail">
+          <div class="grid-2" style="gap:12px;">
+            <div>
+              <div class="label">Date colectate la register</div>
+              <ul class="checklist" style="gap:4px;">
+                <li>Nume complet</li>
+                <li>Email (unic in sistem)</li>
+                <li>Parola (hash bcrypt — niciodata in plain text)</li>
+                <li>Plan ales (din query param ?plan=solo)</li>
+              </ul>
+            </div>
+            <div>
+              <div class="label">Flow Supabase Auth</div>
+              <ul class="checklist" style="gap:4px;">
+                <li>supabase.auth.signUp() emite JWT</li>
+                <li>Email confirmare trimis automat</li>
+                <li>Trigger DB creeaza randul in users</li>
+                <li>Redirect catre /onboarding sau /pay</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="journey-step">
+      <div class="step-num" style="background:rgba(220,38,38,0.15);border:2px solid var(--red);color:#FCA5A5;">3</div>
+      <div class="step-body">
+        <div class="step-title">Verificare Abonament — Middleware Auth</div>
+        <p class="step-desc">La fiecare acces in aplicatie, middleware-ul Next.js verifica simultan: (1) exista JWT valid din Supabase Auth? (2) subscription_status = 'active' in baza de date? Ambele conditii trebuie indeplinite.</p>
+        <div class="step-branch">
+          <div class="branch-yes">
+            <div class="branch-label">DA — are abonament activ</div>
+            <p style="color:var(--text);">Redirect catre /dashboard. Acces complet la toate modulele conform planului. JWT-ul Supabase este valid 1 ora, refreshed automat.</p>
+          </div>
+          <div class="branch-no">
+            <div class="branch-label">NU — fara abonament sau expirat</div>
+            <p style="color:var(--text);">Redirect catre /subscribe cu planul recomandat precompletat. Daca planul a expirat: banner de warning, acces read-only 7 zile grace period.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="journey-step">
+      <div class="step-num" style="background:rgba(201,160,21,0.15);border:2px solid var(--gold);color:var(--gold);">4</div>
+      <div class="step-body">
+        <div class="step-title">Plata — Checkout Stripe (daca NU are abonament)</div>
+        <p class="step-desc">Pagina /subscribe afiseaza cele 3 planuri cu buton "Cumpara". Click → API nostru creeaza Stripe Checkout Session → redirect catre pagina Stripe hosteduite secure (PCI-DSS compliant).</p>
+        <div class="step-detail">
+          <div class="grid-2" style="gap:12px;">
+            <div>
+              <div class="label">Flow plata Stripe</div>
+              <ul class="checklist" style="gap:4px;">
+                <li>POST /api/stripe/create-checkout-session</li>
+                <li>Server creeaza stripe.checkout.sessions.create()</li>
+                <li>Client primeste session.url si este redirectat</li>
+                <li>Clientul introduce cardul pe pagina Stripe</li>
+                <li>Stripe trimite webhook la /api/stripe/webhook</li>
+                <li>Webhook actualizeaza subscription_plan in DB</li>
+                <li>Redirect automat catre /dashboard?welcome=1</li>
+              </ul>
+            </div>
+            <div>
+              <div class="label">Webhook events tratate</div>
+              <ul class="checklist" style="gap:4px;">
+                <li>checkout.session.completed → activare plan</li>
+                <li>customer.subscription.updated → schimbare plan</li>
+                <li>customer.subscription.deleted → dezactivare</li>
+                <li>invoice.payment_failed → email reminder + grace</li>
+                <li>invoice.payment_succeeded → reactivare daca past_due</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="journey-step">
+      <div class="step-num" style="background:rgba(22,163,74,0.15);border:2px solid var(--green);color:#4ADE80;">5</div>
+      <div class="step-body">
+        <div class="step-title">Dashboard — Utilizare Zilnica</div>
+        <p class="step-desc">Agentul are acces complet la toate modulele. Fiecare actiune (adauga lead, creeaza proprietate etc.) trimite request autentificat la API, care valideaza JWT si executa operatia cu user_id din token — niciodata din body-ul requestului.</p>
+        <div class="step-detail">
+          <div class="label">Principiu critic de securitate</div>
+          <div class="code-block" style="margin-top:8px;">
+            <pre style="font-size:11px;"><span class="c">// GRESIT — user_id din body (vulnerabil la manipulare)</span>
+<span class="k">const</span> { user_id, lead_data } <span class="p">=</span> req.body; <span class="c">// NICIODATA asa</span>
+
+<span class="c">// CORECT — user_id EXCLUSIV din JWT verificat server-side</span>
+<span class="k">const</span> { data: { user } } <span class="p">=</span> <span class="k">await</span> supabase.auth.<span class="fn">getUser</span>(jwt_token);
+<span class="k">const</span> user_id <span class="p">=</span> user.id; <span class="c">// Sigur — nu poate fi falsificat</span>
+<span class="k">await</span> supabase.from(<span class="s">'leads'</span>).<span class="fn">insert</span>({ ...lead_data, user_id });</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============================== S5: BACKEND API ============================== -->
+<section class="section" id="s5">
+<div class="wrap">
+  <div class="section-header">
+    <div class="section-num">05 / 11</div>
+    <div class="section-title-block">
+      <h2>Backend & API — Endpoint-uri Complete</h2>
+      <p class="section-desc">Toate rutele API Next.js (App Router Route Handlers), cu metoda HTTP, calea, descrierea si nivelul de autentificare necesar.</p>
+    </div>
+  </div>
+
+  <!-- AUTH endpoints -->
+  <div class="card" style="margin-bottom:20px;padding:0;overflow:hidden;">
+    <div class="card-title" style="padding:14px 16px;border-bottom:1px solid var(--line);margin:0;border-radius:0;">
+      <span class="dot dot-blue"></span>Autentificare & Cont
+    </div>
+    <div class="endpoint header" style="background:rgba(255,255,255,0.02);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">
+      <div>Metoda</div><div>Endpoint</div><div>Descriere</div><div>Auth</div>
+    </div>
+    <div class="endpoint"><span class="method post">POST</span><span class="ep-path">/api/auth/register</span><span class="ep-desc">Creare cont nou + trigger row in users</span><span class="ep-auth">PUBLIC</span></div>
+    <div class="endpoint"><span class="method post">POST</span><span class="ep-path">/api/auth/login</span><span class="ep-desc">Login email+parola → JWT Supabase</span><span class="ep-auth">PUBLIC</span></div>
+    <div class="endpoint"><span class="method post">POST</span><span class="ep-path">/api/auth/logout</span><span class="ep-desc">Invalidare sesiune curenta</span><span class="ep-auth">JWT</span></div>
+    <div class="endpoint"><span class="method get">GET</span><span class="ep-path">/api/auth/me</span><span class="ep-desc">Profil utilizator curent + plan activ</span><span class="ep-auth">JWT</span></div>
+    <div class="endpoint"><span class="method put">PUT</span><span class="ep-path">/api/auth/profile</span><span class="ep-desc">Actualizare nume, telefon, agentie</span><span class="ep-auth">JWT</span></div>
+    <div class="endpoint"><span class="method post">POST</span><span class="ep-path">/api/auth/reset-password</span><span class="ep-desc">Trimitere email resetare parola</span><span class="ep-auth">PUBLIC</span></div>
+  </div>
+
+  <!-- LEADS endpoints -->
+  <div class="card" style="margin-bottom:20px;padding:0;overflow:hidden;">
+    <div class="card-title" style="padding:14px 16px;border-bottom:1px solid var(--line);margin:0;border-radius:0;">
+      <span class="dot dot-blue"></span>Leaduri CRM
+    </div>
+    <div class="endpoint"><span class="method get">GET</span><span class="ep-path">/api/leads</span><span class="ep-desc">Lista leaduri agent — filtru status, sursa, paginare 20/pg</span><span class="ep-auth">JWT + Plan</span></div>
+    <div class="endpoint"><span class="method post">POST</span><span class="ep-path">/api/leads</span><span class="ep-desc">Creare lead nou — verifica limita plan (trigger DB)</span><span class="ep-auth">JWT + Plan</span></div>
+    <div class="endpoint"><span class="method get">GET</span><span class="ep-path">/api/leads/[id]</span><span class="ep-desc">Detalii lead — include viewings + followups asociate</span><span class="ep-auth">JWT + Owner</span></div>
+    <div class="endpoint"><span class="method put">PUT</span><span class="ep-path">/api/leads/[id]</span><span class="ep-desc">Actualizare camp lead (status, buget, notite etc.)</span><span class="ep-auth">JWT + Owner</span></div>
+    <div class="endpoint"><span class="method delete">DEL</span><span class="ep-path">/api/leads/[id]</span><span class="ep-desc">Stergere lead + cascade viewings/followups</span><span class="ep-auth">JWT + Owner</span></div>
+    <div class="endpoint"><span class="method get">GET</span><span class="ep-path">/api/leads/stats</span><span class="ep-desc">Statistici pipeline: count per status, rata conversie</span><span class="ep-auth">JWT + Plan</span></div>
+  </div>
+
+  <!-- PROPERTIES endpoints -->
+  <div class="card" style="margin-bottom:20px;padding:0;overflow:hidden;">
+    <div class="card-title" style="padding:14px 16px;border-bottom:1px solid var(--line);margin:0;border-radius:0;">
+      <span class="dot dot-gold"></span>Proprietati + AI
+    </div>
+    <div class="endpoint"><span class="method get">GET</span><span class="ep-path">/api/properties</span><span class="ep-desc">Lista proprietati — filtru tip, status, oras, pret range</span><span class="ep-auth">JWT + Plan</span></div>
+    <div class="endpoint"><span class="method post">POST</span><span class="ep-path">/api/properties</span><span class="ep-desc">Creare proprietate + upload poze in Supabase Storage</span><span class="ep-auth">JWT + Plan</span></div>
+    <div class="endpoint"><span class="method put">PUT</span><span class="ep-path">/api/properties/[id]</span><span class="ep-desc">Editare proprietate (pret, status, descriere etc.)</span><span class="ep-auth">JWT + Owner</span></div>
+    <div class="endpoint"><span class="method delete">DEL</span><span class="ep-path">/api/properties/[id]</span><span class="ep-desc">Stergere proprietate + fisiere Storage</span><span class="ep-auth">JWT + Owner</span></div>
+    <div class="endpoint"><span class="method post">POST</span><span class="ep-path">/api/properties/[id]/generate-ai</span><span class="ep-desc">Genereaza descriere via OpenAI GPT-4o, stocheaza in DB</span><span class="ep-auth">JWT + Pro/Agency</span></div>
+  </div>
+
+  <!-- STRIPE + BILLING -->
+  <div class="card" style="margin-bottom:20px;padding:0;overflow:hidden;">
+    <div class="card-title" style="padding:14px 16px;border-bottom:1px solid var(--line);margin:0;border-radius:0;">
+      <span class="dot dot-purple"></span>Plati & Abonamente (Stripe)
+    </div>
+    <div class="endpoint"><span class="method post">POST</span><span class="ep-path">/api/stripe/create-checkout</span><span class="ep-desc">Creeaza Stripe Checkout Session pentru planul ales</span><span class="ep-auth">JWT</span></div>
+    <div class="endpoint"><span class="method post">POST</span><span class="ep-path">/api/stripe/create-portal</span><span class="ep-desc">Creeaza sesiune Billing Portal (manage sub, cancel)</span><span class="ep-auth">JWT</span></div>
+    <div class="endpoint"><span class="method post">POST</span><span class="ep-path">/api/stripe/webhook</span><span class="ep-desc">Receptor webhook Stripe — verifica semnatura, actualizeaza DB</span><span class="ep-auth">Stripe Sig</span></div>
+  </div>
+
+  <!-- Middleware code -->
+  <div class="code-block" style="margin-top:8px;">
+    <div class="code-header">
+      <span class="code-lang">TypeScript — Middleware Next.js (src/middleware.ts) — protectie rute</span>
+      <div class="code-dots">
+        <div class="code-dot" style="background:#FF5F57;"></div>
+        <div class="code-dot" style="background:#FFBD2E;"></div>
+        <div class="code-dot" style="background:#28CA41;"></div>
+      </div>
+    </div>
+    <pre><span class="k">import</span> { createMiddlewareClient } <span class="k">from</span> <span class="s">'@supabase/auth-helpers-nextjs'</span>;
+<span class="k">import</span> { NextRequest, NextResponse } <span class="k">from</span> <span class="s">'next/server'</span>;
+
+<span class="k">export async function</span> <span class="fn">middleware</span>(req: NextRequest) {
+  <span class="k">const</span> res <span class="p">=</span> NextResponse.<span class="fn">next</span>();
+  <span class="k">const</span> supabase <span class="p">=</span> <span class="fn">createMiddlewareClient</span>({ req, res });
+
+  <span class="c">// Verifica sesiunea activa</span>
+  <span class="k">const</span> { data: { session } } <span class="p">=</span> <span class="k">await</span> supabase.auth.<span class="fn">getSession</span>();
+
+  <span class="k">const</span> isProtectedRoute <span class="p">=</span> req.nextUrl.pathname.<span class="fn">startsWith</span>(<span class="s">'/dashboard'</span>)
+    <span class="p">||</span> req.nextUrl.pathname.<span class="fn">startsWith</span>(<span class="s">'/api/leads'</span>)
+    <span class="p">||</span> req.nextUrl.pathname.<span class="fn">startsWith</span>(<span class="s">'/api/properties'</span>);
+
+  <span class="k">if</span> (isProtectedRoute <span class="p">&&</span> !session) {
+    <span class="k">return</span> NextResponse.<span class="fn">redirect</span>(<span class="k">new</span> <span class="fn">URL</span>(<span class="s">'/login?reason=unauthenticated'</span>, req.url));
+  }
+
+  <span class="c">// Verifica plan activ pentru rute premium</span>
+  <span class="k">if</span> (session) {
+    <span class="k">const</span> { data: profile } <span class="p">=</span> <span class="k">await</span> supabase
+      .from(<span class="s">'users'</span>).<span class="fn">select</span>(<span class="s">'subscription_status,subscription_plan'</span>)
+      .eq(<span class="s">'id'</span>, session.user.id).<span class="fn">single</span>();
+
+    <span class="k">if</span> (isProtectedRoute <span class="p">&&</span> profile?.subscription_status <span class="p">!==</span> <span class="s">'active'</span>) {
+      <span class="k">return</span> NextResponse.<span class="fn">redirect</span>(<span class="k">new</span> <span class="fn">URL</span>(<span class="s">'/subscribe?reason=inactive'</span>, req.url));
+    }
+  }
+  <span class="k">return</span> res;
+}
+
+<span class="k">export const</span> config <span class="p">=</span> { matcher: [<span class="s">'/dashboard/:path*'</span>, <span class="s">'/api/(leads|properties|viewings|followups|stripe/create-:path*)'</span>] };</pre>
+  </div>
+</div>
+</section>
+
+<!-- ============================== S6: INTEGRARI ============================== -->
+<section class="section" id="s6">
+<div class="wrap">
+  <div class="section-header">
+    <div class="section-num">06 / 11</div>
+    <div class="section-title-block">
+      <h2>Integrari Enterprise Externe</h2>
+      <p class="section-desc">Configurarea si responsabilitatile fiecarui serviciu extern integrat in platforma AgentFlow V2.</p>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <!-- Supabase -->
+    <div class="integration-card">
+      <div class="int-header" style="background:rgba(13,148,136,0.08);border-bottom-color:rgba(13,148,136,0.2);">
+        <div class="int-logo" style="background:rgba(13,148,136,0.2);color:#2DD4BF;font-size:14px;">SB</div>
+        <div><div class="int-name">Supabase</div><div class="int-role">Baza de date + Autentificare + Storage</div></div>
+      </div>
+      <div class="int-body">
+        <div class="int-row"><span class="int-key">Rol</span><span class="int-val">PostgreSQL cloud + Auth JWT + File storage pentru poze proprietati</span></div>
+        <div class="int-row"><span class="int-key">Plan recomandat</span><span class="int-val">Pro ($25/luna) — necesar pentru RLS avansat si 8GB DB</span></div>
+        <div class="int-row"><span class="int-key">Variabile env</span><span class="int-val"><code>NEXT_PUBLIC_SUPABASE_URL</code>, <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code>, <code>SUPABASE_SERVICE_ROLE_KEY</code></span></div>
+        <div class="int-row"><span class="int-key">SDK</span><span class="int-val"><code>@supabase/supabase-js</code> + <code>@supabase/auth-helpers-nextjs</code></span></div>
+        <div class="int-row"><span class="int-key">Auth providers</span><span class="int-val">Email + Password, Google OAuth 2.0, Facebook OAuth</span></div>
+        <div class="int-row"><span class="int-key">Storage buckets</span><span class="int-val"><code>property-photos</code> (public), <code>user-avatars</code> (public), <code>documents</code> (private)</span></div>
+      </div>
+    </div>
+
+    <!-- Stripe -->
+    <div class="integration-card">
+      <div class="int-header" style="background:rgba(99,91,255,0.08);border-bottom-color:rgba(99,91,255,0.2);">
+        <div class="int-logo" style="background:rgba(99,91,255,0.15);color:#818CF8;font-size:14px;">ST</div>
+        <div><div class="int-name">Stripe</div><div class="int-role">Plati recurente + Managed billing</div></div>
+      </div>
+      <div class="int-body">
+        <div class="int-row"><span class="int-key">Rol</span><span class="int-val">Procesare plati recurente (subscriptii lunare), gestionare carduri, generare facturi</span></div>
+        <div class="int-row"><span class="int-key">Produse Stripe</span><span class="int-val">3 Price Objects: solo_monthly (99 RON), pro_monthly (199 RON), agency_monthly (499 RON)</span></div>
+        <div class="int-row"><span class="int-key">Variabile env</span><span class="int-val"><code>STRIPE_SECRET_KEY</code>, <code>STRIPE_PUBLISHABLE_KEY</code>, <code>STRIPE_WEBHOOK_SECRET</code></span></div>
+        <div class="int-row"><span class="int-key">SDK</span><span class="int-val"><code>stripe</code> (server) + <code>@stripe/stripe-js</code> (client pentru UI components)</span></div>
+        <div class="int-row"><span class="int-key">Webhook URL</span><span class="int-val"><code>https://agentflow.ro/api/stripe/webhook</code> — inregistrat in Stripe Dashboard</span></div>
+        <div class="int-row"><span class="int-key">Conformitate</span><span class="int-val">PCI-DSS Level 1 — datele cardului nu trec niciodata prin serverele noastre</span></div>
+      </div>
+    </div>
+
+    <!-- OpenAI -->
+    <div class="integration-card">
+      <div class="int-header" style="background:rgba(16,185,129,0.08);border-bottom-color:rgba(16,185,129,0.2);">
+        <div class="int-logo" style="background:rgba(16,185,129,0.15);color:#34D399;font-size:13px;">AI</div>
+        <div><div class="int-name">OpenAI API</div><div class="int-role">Generare descrieri proprietati (GPT-4o)</div></div>
+      </div>
+      <div class="int-body">
+        <div class="int-row"><span class="int-key">Rol</span><span class="int-val">Generare descrieri profesionale pentru anunturi imobiliare in 4 tonuri</span></div>
+        <div class="int-row"><span class="int-key">Model</span><span class="int-val">gpt-4o — temperatura 0.7, max_tokens 600</span></div>
+        <div class="int-row"><span class="int-key">Variabila env</span><span class="int-val"><code>OPENAI_API_KEY</code> — stocat EXCLUSIV pe server, niciodata in client</span></div>
+        <div class="int-row"><span class="int-key">SDK</span><span class="int-val"><code>openai</code> — apelat din /api/properties/[id]/generate-ai</span></div>
+        <div class="int-row"><span class="int-key">Rate limiting</span><span class="int-val">Max 5 generari/zi pentru plan Pro, 20/zi pentru Agency — Redis counter</span></div>
+        <div class="int-row"><span class="int-key">Disponibil pe</span><span class="int-val">Plan Pro si Agency — plan Solo si Free NU au acces la AI real</span></div>
+      </div>
+    </div>
+
+    <!-- Resend -->
+    <div class="integration-card">
+      <div class="int-header" style="background:rgba(220,38,38,0.08);border-bottom-color:rgba(220,38,38,0.2);">
+        <div class="int-logo" style="background:rgba(220,38,38,0.15);color:#F87171;font-size:13px;">RS</div>
+        <div><div class="int-name">Resend</div><div class="int-role">Email tranzactional + Template-uri HTML</div></div>
+      </div>
+      <div class="int-body">
+        <div class="int-row"><span class="int-key">Rol</span><span class="int-val">Email-uri sistem: confirmare cont, reset parola, reminder plata, rezumat saptamanal</span></div>
+        <div class="int-row"><span class="int-key">Variabila env</span><span class="int-val"><code>RESEND_API_KEY</code></span></div>
+        <div class="int-row"><span class="int-key">SDK</span><span class="int-val"><code>resend</code> + template-uri <code>react-email</code></span></div>
+        <div class="int-row"><span class="int-key">Template-uri</span><span class="int-val">welcome.tsx, payment_failed.tsx, weekly_summary.tsx, reminder_viewing.tsx</span></div>
+        <div class="int-row"><span class="int-key">Domeniu sender</span><span class="int-val"><code>noreply@agentflow.ro</code> — DNS SPF + DKIM configurate</span></div>
+        <div class="int-row"><span class="int-key">Plan recomandat</span><span class="int-val">Resend Pro ($20/luna) — 50.000 emailuri/luna</span></div>
+      </div>
+    </div>
+
+    <!-- Redis -->
+    <div class="integration-card">
+      <div class="int-header" style="background:rgba(239,68,68,0.08);border-bottom-color:rgba(239,68,68,0.2);">
+        <div class="int-logo" style="background:rgba(239,68,68,0.15);color:#FCA5A5;font-size:13px;">RD</div>
+        <div><div class="int-name">Upstash Redis</div><div class="int-role">Rate limiting + Session cache + Queue</div></div>
+      </div>
+      <div class="int-body">
+        <div class="int-row"><span class="int-key">Rol</span><span class="int-val">Rate limiting API, cache profil utilizator, coada email-uri, counter AI generations</span></div>
+        <div class="int-row"><span class="int-key">Variabile env</span><span class="int-val"><code>UPSTASH_REDIS_REST_URL</code>, <code>UPSTASH_REDIS_REST_TOKEN</code></span></div>
+        <div class="int-row"><span class="int-key">SDK</span><span class="int-val"><code>@upstash/redis</code> + <code>@upstash/ratelimit</code></span></div>
+        <div class="int-row"><span class="int-key">Rate limits</span><span class="int-val">100 req/min per user general, 5 req/min pentru endpoint AI, 10 req/min pentru Stripe</span></div>
+        <div class="int-row"><span class="int-key">Plan recomandat</span><span class="int-val">Upstash Pay-as-you-go — serverless, ~$0.20/10k comenzi</span></div>
+      </div>
+    </div>
+
+    <!-- Vercel -->
+    <div class="integration-card">
+      <div class="int-header" style="background:rgba(255,255,255,0.04);border-bottom-color:rgba(255,255,255,0.08);">
+        <div class="int-logo" style="background:rgba(255,255,255,0.08);color:#fff;font-size:14px;">▲</div>
+        <div><div class="int-name">Vercel</div><div class="int-role">Hosting + CI/CD + Edge Network</div></div>
+      </div>
+      <div class="int-body">
+        <div class="int-row"><span class="int-key">Rol</span><span class="int-val">Deploy automat din GitHub, CDN global, Edge Functions pentru middleware</span></div>
+        <div class="int-row"><span class="int-key">Plan recomandat</span><span class="int-val">Vercel Pro ($20/luna) — bandwidth nelimitat, custom domains, preview deploys</span></div>
+        <div class="int-row"><span class="int-key">Domenii</span><span class="int-val"><code>agentflow.ro</code> (prod), <code>staging.agentflow.ro</code> (QA), preview deploys automate</span></div>
+        <div class="int-row"><span class="int-key">ENV management</span><span class="int-val">Toate secretele in Vercel Environment Variables — separate pe prod/preview/dev</span></div>
+        <div class="int-row"><span class="int-key">Analytics</span><span class="int-val">Vercel Analytics + Web Vitals monitoring inclus in Pro</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============================== S7: AI ENGINE ============================== -->
+<section class="section" id="s7">
+<div class="wrap">
+  <div class="section-header">
+    <div class="section-num">07 / 11</div>
+    <div class="section-title-block">
+      <h2>AI Engine — Generare Descrieri OpenAI</h2>
+      <p class="section-desc">Arhitectura completa a modulului AI: de la click-ul agentului pana la descrierea stocata in baza de date.</p>
+    </div>
+  </div>
+
+  <div class="grid-21">
+    <div>
+      <!-- Flow AI -->
+      <div class="card card-purple" style="margin-bottom:20px;">
+        <div class="card-title"><span class="dot dot-purple"></span>Flux complet generare AI</div>
+        <div class="journey-steps">
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+            <div style="width:28px;height:28px;border-radius:50%;background:rgba(124,58,237,0.2);border:1px solid var(--purple);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:11px;color:#C4B5FD;flex-shrink:0;">1</div>
+            <div style="padding-top:4px;font-size:13px;">Agentul apasa <strong style="color:#C4B5FD;">"Genereaza descriere AI"</strong> pe o proprietate. Alege tonul dorit (Premium / Emotional / Investitional / Minimalist).</div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+            <div style="width:28px;height:28px;border-radius:50%;background:rgba(124,58,237,0.2);border:1px solid var(--purple);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:11px;color:#C4B5FD;flex-shrink:0;">2</div>
+            <div style="padding-top:4px;font-size:13px;">Frontend trimite <code>POST /api/properties/[id]/generate-ai</code> cu payload: <code>{ tone: 'premium' }</code>. JWT-ul este inclus automat in Authorization header.</div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+            <div style="width:28px;height:28px;border-radius:50%;background:rgba(124,58,237,0.2);border:1px solid var(--purple);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:11px;color:#C4B5FD;flex-shrink:0;">3</div>
+            <div style="padding-top:4px;font-size:13px;">Server verifica: (1) JWT valid, (2) proprietatea apartine agentului, (3) plan Pro/Agency, (4) sub limita de generari/zi via Redis counter.</div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+            <div style="width:28px;height:28px;border-radius:50%;background:rgba(124,58,237,0.2);border:1px solid var(--purple);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:11px;color:#C4B5FD;flex-shrink:0;">4</div>
+            <div style="padding-top:4px;font-size:13px;">Server construieste prompt-ul cu datele proprietatii si apeleaza <code>openai.chat.completions.create()</code> cu modelul <code>gpt-4o</code>.</div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">
+            <div style="width:28px;height:28px;border-radius:50%;background:rgba(124,58,237,0.2);border:1px solid var(--purple);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:11px;color:#C4B5FD;flex-shrink:0;">5</div>
+            <div style="padding-top:4px;font-size:13px;">Descrierea returnata de OpenAI este salvata in campul <code>descriere_ai</code> din tabelul <code>properties</code>, asociata cu <code>user_id</code> si <code>property_id</code>.</div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="width:28px;height:28px;border-radius:50%;background:rgba(22,163,74,0.2);border:1px solid var(--green);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:11px;color:#4ADE80;flex-shrink:0;">✓</div>
+            <div style="padding-top:4px;font-size:13px;">Frontend primeste descrierea si o afiseaza in editor. Agentul o editeaza dupa nevoie si o copiaza direct in anuntul de pe imobiliare.ro sau OLX.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="code-block" style="margin-bottom:16px;">
+        <div class="code-header">
+          <span class="code-lang">TypeScript — /api/properties/[id]/generate-ai/route.ts</span>
+          <div class="code-dots"><div class="code-dot" style="background:#FF5F57;"></div><div class="code-dot" style="background:#FFBD2E;"></div><div class="code-dot" style="background:#28CA41;"></div></div>
+        </div>
+        <pre style="font-size:11px;"><span class="k">import</span> OpenAI <span class="k">from</span> <span class="s">'openai'</span>;
+<span class="k">import</span> { Ratelimit } <span class="k">from</span> <span class="s">'@upstash/ratelimit'</span>;
+<span class="k">import</span> { Redis } <span class="k">from</span> <span class="s">'@upstash/redis'</span>;
+
+<span class="k">const</span> openai <span class="p">=</span> <span class="k">new</span> <span class="fn">OpenAI</span>({ apiKey: process.env.OPENAI_API_KEY });
+<span class="k">const</span> ratelimit <span class="p">=</span> <span class="k">new</span> <span class="fn">Ratelimit</span>({
+  redis: Redis.<span class="fn">fromEnv</span>(),
+  limiter: Ratelimit.<span class="fn">slidingWindow</span>(<span class="p">5</span>, <span class="s">'1 d'</span>), <span class="c">// 5/zi plan Pro</span>
+});
+
+<span class="k">export async function</span> <span class="fn">POST</span>(req: Request, { params }) {
+  <span class="k">const</span> user <span class="p">=</span> <span class="k">await</span> <span class="fn">getAuthUser</span>(req); <span class="c">// verifica JWT</span>
+  <span class="k">if</span> (!user) <span class="k">return</span> <span class="fn">unauthorized</span>();
+
+  <span class="k">const</span> { success } <span class="p">=</span> <span class="k">await</span> ratelimit.<span class="fn">limit</span>(user.id);
+  <span class="k">if</span> (!success) <span class="k">return</span> <span class="fn">tooManyRequests</span>(<span class="s">'Limita AI atinsa pentru azi'</span>);
+
+  <span class="k">const</span> property <span class="p">=</span> <span class="k">await</span> <span class="fn">getPropertyOwned</span>(params.id, user.id);
+  <span class="k">if</span> (!property) <span class="k">return</span> <span class="fn">notFound</span>();
+
+  <span class="k">const</span> { tone } <span class="p">=</span> <span class="k">await</span> req.<span class="fn">json</span>();
+  <span class="k">const</span> prompt <span class="p">=</span> <span class="fn">buildPropertyPrompt</span>(property, tone);
+
+  <span class="k">const</span> completion <span class="p">=</span> <span class="k">await</span> openai.chat.completions.<span class="fn">create</span>({
+    model: <span class="s">'gpt-4o'</span>,
+    temperature: <span class="p">0.7</span>,
+    max_tokens: <span class="p">600</span>,
+    messages: [
+      { role: <span class="s">'system'</span>, content: <span class="s">'Esti un expert imobiliar roman care scrie anunturi profesionale in romana.'</span> },
+      { role: <span class="s">'user'</span>, content: prompt }
+    ]
+  });
+
+  <span class="k">const</span> descriere_ai <span class="p">=</span> completion.choices[<span class="p">0</span>].message.content;
+
+  <span class="k">await</span> supabase.from(<span class="s">'properties'</span>)
+    .<span class="fn">update</span>({ descriere_ai })
+    .eq(<span class="s">'id'</span>, params.id).eq(<span class="s">'user_id'</span>, user.id);
+
+  <span class="k">return</span> <span class="fn">json</span>({ descriere_ai });
+}</pre>
+      </div>
+
+      <div class="card card-purple">
+        <div class="card-title"><span class="dot dot-purple"></span>Structura prompt proprietate</div>
+        <pre style="font-size:11px;color:#C4B5FD;background:rgba(124,58,237,0.08);padding:12px;border-radius:3px;overflow-x:auto;">Scrie o descriere pentru urmatoarea proprietate.
+Ton: {tone} ({tone_description})
+Tip: {tip} | Oras: {oras} | Zona: {zona}
+Pret: {pret} {moneda}
+Suprafata: {suprafata} mp | Camere: {nr_camere}
+Dotari: {features.join(', ')}
+Informatii suplimentare: {descriere_manuala}
+
+Cerinte:
+- Maxim 250 de cuvinte
+- Incepe cu o fraza de impact
+- Evita cliseele si exagerarile
+- Finalizeaza cu un call-to-action</pre>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============================== S8: STRIPE ============================== -->
+<section class="section" id="s8">
+<div class="wrap">
+  <div class="section-header">
+    <div class="section-num">08 / 11</div>
+    <div class="section-title-block">
+      <h2>Plati — Arhitectura Stripe Webhooks</h2>
+      <p class="section-desc">Fluxul complet de la clickul pe "Cumpara" pana la activarea automata a contului, fara interventie manuala.</p>
+    </div>
+  </div>
+
+  <div class="grid-12">
+    <div>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">TypeScript — /api/stripe/webhook/route.ts — receptor complet</span>
+          <div class="code-dots"><div class="code-dot" style="background:#FF5F57;"></div><div class="code-dot" style="background:#FFBD2E;"></div><div class="code-dot" style="background:#28CA41;"></div></div>
+        </div>
+        <pre style="font-size:11px;"><span class="k">import</span> Stripe <span class="k">from</span> <span class="s">'stripe'</span>;
+<span class="k">const</span> stripe <span class="p">=</span> <span class="k">new</span> <span class="fn">Stripe</span>(process.env.STRIPE_SECRET_KEY!);
+
+<span class="k">export async function</span> <span class="fn">POST</span>(req: Request) {
+  <span class="k">const</span> body <span class="p">=</span> <span class="k">await</span> req.<span class="fn">text</span>();
+  <span class="k">const</span> sig <span class="p">=</span> req.headers.<span class="fn">get</span>(<span class="s">'stripe-signature'</span>)!;
+
+  <span class="c">// CRIRIC: Verifica semnatura Stripe — respinge orice request fals</span>
+  <span class="k">let</span> event: Stripe.Event;
+  <span class="k">try</span> {
+    event <span class="p">=</span> stripe.webhooks.<span class="fn">constructEvent</span>(body, sig,
+      process.env.STRIPE_WEBHOOK_SECRET!);
+  } <span class="k">catch</span> {
+    <span class="k">return</span> <span class="fn">json</span>({ error: <span class="s">'Invalid signature'</span> }, { status: <span class="p">400</span> });
+  }
+
+  <span class="k">switch</span> (event.type) {
+    <span class="k">case</span> <span class="s">'checkout.session.completed'</span>: {
+      <span class="k">const</span> session <span class="p">=</span> event.data.object;
+      <span class="k">await</span> <span class="fn">activateSubscription</span>({
+        stripeCustomerId: session.customer,
+        subscriptionId: session.subscription,
+        plan: <span class="fn">getPlanFromSession</span>(session),
+      });
+      <span class="k">break</span>;
+    }
+    <span class="k">case</span> <span class="s">'customer.subscription.deleted'</span>: {
+      <span class="k">await</span> <span class="fn">deactivateSubscription</span>(event.data.object.customer);
+      <span class="c">// Trimite email via Resend: "Abonamentul tau a expirat"</span>
+      <span class="k">break</span>;
+    }
+    <span class="k">case</span> <span class="s">'invoice.payment_failed'</span>: {
+      <span class="k">await</span> <span class="fn">setSubscriptionPastDue</span>(event.data.object.customer);
+      <span class="k">await</span> <span class="fn">sendPaymentFailedEmail</span>(event.data.object.customer_email);
+      <span class="k">break</span>;
+    }
+    <span class="k">case</span> <span class="s">'customer.subscription.updated'</span>: {
+      <span class="c">// Upgrade/downgrade plan — actualizeaza subscription_plan in DB</span>
+      <span class="k">await</span> <span class="fn">updatePlan</span>(event.data.object);
+      <span class="k">break</span>;
+    }
+  }
+  <span class="k">return</span> <span class="fn">json</span>({ received: <span class="k">true</span> });
+}
+
+<span class="k">async function</span> <span class="fn">activateSubscription</span>({ stripeCustomerId, subscriptionId, plan }) {
+  <span class="c">// Actualizeaza DB — EXCLUSIV prin service_role, nu prin utilizator</span>
+  <span class="k">await</span> supabaseAdmin.from(<span class="s">'users'</span>).<span class="fn">update</span>({
+    subscription_plan: plan,
+    subscription_status: <span class="s">'active'</span>,
+    stripe_subscription_id: subscriptionId,
+  }).<span class="fn">eq</span>(<span class="s">'stripe_customer_id'</span>, stripeCustomerId);
+}</pre>
+      </div>
+    </div>
+
+    <div>
+      <div class="card card-gold" style="margin-bottom:20px;">
+        <div class="card-title"><span class="dot dot-gold"></span>Events Stripe monitorizate</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          {[
+            ['checkout.session.completed','Plata initiala reusita → activare plan'],
+            ['customer.subscription.updated','Upgrade/downgrade → schimba plan in DB'],
+            ['customer.subscription.deleted','Anulare → dezactiveaza cont'],
+            ['invoice.payment_succeeded','Plata recurenta OK → mentine activ'],
+            ['invoice.payment_failed','Plata esuata → past_due + email retry'],
+            ['customer.created','Client nou Stripe → sync stripe_customer_id'],
+          ].map(([ev, desc]) => `
+          <div style="border:1px solid rgba(201,160,21,0.2);border-radius:3px;padding:8px 12px;">
+            <code style="font-size:10px;color:var(--gold);">${ev}</code>
+            <p style="font-size:11px;color:var(--muted);margin-top:2px;">${desc}</p>
+          </div>`).join('')}
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span class="dot dot-green"></span>Produse Stripe configurate</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="border:1px solid var(--line);border-radius:3px;padding:10px 14px;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;">
+              <span style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;">Agent Solo</span>
+              <span style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--gold);">99 RON<span style="font-size:11px;color:var(--muted);">/luna</span></span>
+            </div>
+            <code style="font-size:10px;color:var(--muted);">price_solo_monthly_ron_99</code>
+          </div>
+          <div style="border:1px solid rgba(201,160,21,0.3);border-radius:3px;padding:10px 14px;background:rgba(201,160,21,0.04);">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;">
+              <span style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;">Agent Pro</span>
+              <span style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--gold);">199 RON<span style="font-size:11px;color:var(--muted);">/luna</span></span>
+            </div>
+            <code style="font-size:10px;color:var(--muted);">price_pro_monthly_ron_199</code>
+          </div>
+          <div style="border:1px solid var(--line);border-radius:3px;padding:10px 14px;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;">
+              <span style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;">Agentie</span>
+              <span style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--gold);">499 RON<span style="font-size:11px;color:var(--muted);">/luna</span></span>
+            </div>
+            <code style="font-size:10px;color:var(--muted);">price_agency_monthly_ron_499</code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============================== S9: AUTH ============================== -->
+<section class="section" id="s9">
+<div class="wrap">
+  <div class="section-header">
+    <div class="section-num">09 / 11</div>
+    <div class="section-title-block">
+      <h2>Autentificare — Supabase Auth Flow</h2>
+      <p class="section-desc">Mecanismul complet de autentificare: JWT lifecycle, refresh tokens, OAuth social providers si protectia sesiunilor.</p>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div>
+      <div class="card card-teal" style="margin-bottom:16px;">
+        <div class="card-title"><span class="dot dot-teal"></span>JWT Token Lifecycle</div>
+        <ul class="checklist">
+          <li>La login: Supabase emite access_token (JWT, 1 ora) + refresh_token (7 zile)</li>
+          <li>JWT contine: user.id, email, role, expirat la (exp)</li>
+          <li>La fiecare request: middleware valideaza JWT cu cheia publica Supabase</li>
+          <li>La 55 min: Supabase JS client auto-refresheaza token via refresh_token</li>
+          <li>La logout: refresh_token invalidat in Supabase → toate sesiunile expire</li>
+          <li>Token-urile sunt stocate in cookies httpOnly, SameSite=Lax, Secure</li>
+        </ul>
+      </div>
+
+      <div class="card card-blue">
+        <div class="card-title"><span class="dot dot-blue"></span>Social Login — OAuth Providers</div>
+        <div class="grid-2" style="gap:10px;margin-bottom:12px;">
+          <div style="border:1px solid rgba(66,133,244,0.3);background:rgba(66,133,244,0.08);border-radius:3px;padding:10px;text-align:center;">
+            <div style="font-family:'Syne',sans-serif;font-weight:700;color:#93C5FD;">Google OAuth 2.0</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:4px;">Configurat in Supabase + Google Cloud Console</div>
+          </div>
+          <div style="border:1px solid rgba(59,89,152,0.3);background:rgba(59,89,152,0.08);border-radius:3px;padding:10px;text-align:center;">
+            <div style="font-family:'Syne',sans-serif;font-weight:700;color:#93C5FD;">Facebook OAuth</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:4px;">Configurat in Supabase + Meta Developers</div>
+          </div>
+        </div>
+        <p style="font-size:12px;color:var(--muted);">La primul login OAuth, Supabase creeaza automat contul si declanseaza triggerul care insereaza randul in tabelul <code>users</code> cu <code>subscription_plan = 'free'</code>.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="code-block" style="margin-bottom:16px;">
+        <div class="code-header">
+          <span class="code-lang">SQL — Trigger creare profil la inregistrare</span>
+          <div class="code-dots"><div class="code-dot" style="background:#FF5F57;"></div><div class="code-dot" style="background:#FFBD2E;"></div><div class="code-dot" style="background:#28CA41;"></div></div>
+        </div>
+        <pre style="font-size:11px;"><span class="c">-- Se declanseaza automat cand Supabase Auth creeaza un user nou</span>
+<span class="k">CREATE OR REPLACE FUNCTION</span> <span class="fn">handle_new_user</span>()
+<span class="k">RETURNS TRIGGER AS</span> $$
+<span class="k">BEGIN</span>
+  <span class="k">INSERT INTO</span> public.users (id, email, nume_complet, subscription_plan, subscription_status)
+  <span class="k">VALUES</span> (
+    NEW.id,
+    NEW.email,
+    <span class="fn">COALESCE</span>(NEW.raw_user_meta_data->><span class="s">'full_name'</span>, <span class="s">'Agent Nou'</span>),
+    <span class="s">'free'</span>,
+    <span class="s">'inactive'</span>
+  );
+  <span class="k">RETURN NEW</span>;
+<span class="k">END</span>;
+$$ <span class="k">LANGUAGE</span> plpgsql <span class="k">SECURITY DEFINER</span>;
+
+<span class="c">-- Triggerul se aplica pe tabelul intern Supabase Auth</span>
+<span class="k">CREATE TRIGGER</span> on_auth_user_created
+  <span class="k">AFTER INSERT ON</span> auth.users
+  <span class="k">FOR EACH ROW EXECUTE FUNCTION</span> <span class="fn">handle_new_user</span>();</pre>
+      </div>
+
+      <div class="card card-red">
+        <div class="card-title"><span class="dot dot-red"></span>Masuri de securitate aditionale</div>
+        <ul class="checklist">
+          <li>Rate limiting pe /api/auth/*: max 10 req/min per IP via Upstash</li>
+          <li>Email confirmare obligatorie inainte de acces in dashboard</li>
+          <li>Brute-force protection: Supabase blocheaza dupa 5 tentative esuate</li>
+          <li>CORS configurat strict: doar origini agentflow.ro permise</li>
+          <li>Headers securitate: CSP, X-Frame-Options, HSTS activate pe Vercel</li>
+          <li>Service role key EXCLUSIV pe server — niciodata expusa clientului</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============================== S10: PRETURI ============================== -->
+<section class="section" id="s10">
+<div class="wrap">
+  <div class="section-header">
+    <div class="section-num">10 / 11</div>
+    <div class="section-title-block">
+      <h2>Planuri de Abonament & Limite</h2>
+      <p class="section-desc">Configurarea completa a limitelor per plan, impuse simultan la nivel de UI, API middleware si trigger PostgreSQL.</p>
+    </div>
+  </div>
+
+  <div class="pricing-grid">
+    <!-- Free -->
+    <div class="price-card">
+      <div class="price-plan">Gratuit</div>
+      <div class="price-amount">0 <span class="price-unit">RON/luna</span></div>
+      <div class="price-desc">Acces demo limitat — maxim 14 zile dupa inregistrare</div>
+      <div class="price-features">
+        <div class="price-feat"><span class="feat-check">✓</span>Max 10 leaduri</div>
+        <div class="price-feat"><span class="feat-check">✓</span>Max 5 proprietati</div>
+        <div class="price-feat"><span class="feat-check">✓</span>Vizionari nelimitate</div>
+        <div class="price-feat"><span class="feat-check">✓</span>Follow-up basic</div>
+        <div class="price-feat"><span class="feat-x" style="color:var(--muted);">✕</span>AI descrieri anunturi</div>
+        <div class="price-feat"><span class="feat-x" style="color:var(--muted);">✕</span>Export date</div>
+        <div class="price-feat"><span class="feat-x" style="color:var(--muted);">✕</span>Rapoarte comisioane</div>
+        <div class="price-feat"><span class="feat-x" style="color:var(--muted);">✕</span>Support prioritar</div>
+      </div>
+      <a class="price-cta price-cta-white" href="#">Incepe gratuit</a>
+    </div>
+
+    <!-- Solo -->
+    <div class="price-card">
+      <div class="price-plan">Agent Solo</div>
+      <div class="price-amount">99 <span class="price-unit">RON/luna</span></div>
+      <div class="price-desc">Perfect pentru agenti independenti cu activitate regulata</div>
+      <div class="price-features">
+        <div class="price-feat"><span class="feat-check">✓</span>Max 50 leaduri active</div>
+        <div class="price-feat"><span class="feat-check">✓</span>Max 20 proprietati</div>
+        <div class="price-feat"><span class="feat-check">✓</span>Vizionari nelimitate</div>
+        <div class="price-feat"><span class="feat-check">✓</span>Follow-up + template-uri</div>
+        <div class="price-feat"><span class="feat-x" style="color:var(--muted);">✕</span>AI descrieri (simulare locala)</div>
+        <div class="price-feat"><span class="feat-check">✓</span>Calculator comisioane</div>
+        <div class="price-feat"><span class="feat-x" style="color:var(--muted);">✕</span>Export CSV</div>
+        <div class="price-feat"><span class="feat-check">✓</span>Support email 48h</div>
+      </div>
+      <a class="price-cta price-cta-gold" href="#">Solicita acces</a>
+    </div>
+
+    <!-- Pro -->
+    <div class="price-card featured">
+      <div class="price-plan">Agent Pro</div>
+      <div class="price-amount">199 <span class="price-unit">RON/luna</span></div>
+      <div class="price-desc">Pentru agenti activi cu portofoliu mare si nevoie de AI</div>
+      <div class="price-features">
+        <div class="price-feat"><span class="feat-check">✓</span>Leaduri nelimitate</div>
+        <div class="price-feat"><span class="feat-check">✓</span>Proprietati nelimitate</div>
+        <div class="price-feat"><span class="feat-check">✓</span>AI descrieri reale (5/zi GPT-4o)</div>
+        <div class="price-feat"><span class="feat-check">✓</span>Dashboard performanta</div>
+        <div class="price-feat"><span class="feat-check">✓</span>Rapoarte lunare comisioane</div>
+        <div class="price-feat"><span class="feat-check">✓</span>Export CSV / PDF</div>
+        <div class="price-feat"><span class="feat-check">✓</span>Upload poze proprietati</div>
+        <div class="price-feat"><span class="feat-check">✓</span>Support prioritar 24h</div>
+      </div>
+      <a class="price-cta price-cta-gold" href="#">Solicita acces</a>
+    </div>
+
+    <!-- Agency -->
+    <div class="price-card">
+      <div class="price-plan">Agentie</div>
+      <div class="price-amount">499 <span class="price-unit">RON/luna</span></div>
+      <div class="price-desc">Pentru echipe si agentii imobiliare cu mai multi agenti</div>
+      <div class="price-features">
+        <div class="price-feat"><span class="feat-check">✓</span>Totul din Pro</div>
+        <div class="price-feat"><span class="feat-check">✓</span>Pana la 10 conturi agenti</div>
+        <div class="price-feat"><span class="feat-check">✓</span>AI descrieri 20/zi per agent</div>
+        <div class="price-feat"><span class="feat-check">✓</span>Branding agentie (logo + culori)</div>
+        <div class="price-feat"><span class="feat-check">✓</span>Dashboard director agentie</div>
+        <div class="price-feat"><span class="feat-check">✓</span>API access (viitor)</div>
+        <div class="price-feat"><span class="feat-check">✓</span>Manager cont dedicat</div>
+        <div class="price-feat"><span class="feat-check">✓</span>Onboarding personalizat</div>
+      </div>
+      <a class="price-cta price-cta-white" href="#">Contact pentru demo</a>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:24px;">
+    <span class="note-icon">ℹ</span>
+    <div>
+      <strong style="color:var(--text);">Implementare limite tehnica:</strong> Limitele sunt impuse pe 3 niveluri simultane: (1) UI blocheaza butonul si afiseaza mesaj de upgrade, (2) API middleware verifica planul inainte de a executa operatia, (3) Trigger PostgreSQL refuza INSERT daca limita e atinsa — securitate triplu stratificata.
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============================== S11: ROADMAP ============================== -->
+<section class="section" id="s11">
+<div class="wrap">
+  <div class="section-header">
+    <div class="section-num">11 / 11</div>
+    <div class="section-title-block">
+      <h2>Roadmap de Dezvoltare</h2>
+      <p class="section-desc">Planul de implementare in 4 faze, de la migrarea MVP-ului existent la platforma enterprise completa.</p>
+    </div>
+  </div>
+
+  <div class="roadmap">
+    <div class="rm-phase">
+      <div class="rm-head">
+        <div class="rm-phase-num">FAZA 01</div>
+        <div class="rm-phase-title">Fundatia</div>
+        <div class="rm-timeline">Saptamanile 1-3</div>
+        <span class="tag tag-gold" style="margin-top:8px;">CRITICA</span>
+      </div>
+      <div class="rm-body">
+        <div class="rm-items">
+          <div class="rm-item"><div class="rm-item-title">Setup proiect Next.js 14</div><div class="rm-item-desc">App Router, TypeScript strict, ESLint, Prettier, Husky pre-commit</div></div>
+          <div class="rm-item"><div class="rm-item-title">Schema Supabase completa</div><div class="rm-item-desc">5 tabele, indecsi, triggere updated_at, RLS activate pe toate</div></div>
+          <div class="rm-item"><div class="rm-item-title">Supabase Auth integration</div><div class="rm-item-desc">Email+parola, Google OAuth, trigger handle_new_user, JWT middleware</div></div>
+          <div class="rm-item"><div class="rm-item-title">Migrare date demo</div><div class="rm-item-desc">Script migrare din LocalStorage MVP catre Supabase pentru testing</div></div>
+          <div class="rm-item"><div class="rm-item-title">Stripe setup initial</div><div class="rm-item-desc">3 produse Stripe, checkout session, webhook local cu Stripe CLI</div></div>
+          <div class="rm-item"><div class="rm-item-title">Deploy Vercel staging</div><div class="rm-item-desc">CI/CD GitHub Actions, environment variables, custom domain staging</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rm-phase">
+      <div class="rm-head">
+        <div class="rm-phase-num">FAZA 02</div>
+        <div class="rm-phase-title">Core Features</div>
+        <div class="rm-timeline">Saptamanile 4-7</div>
+        <span class="tag tag-blue" style="margin-top:8px;">API + UI</span>
+      </div>
+      <div class="rm-body">
+        <div class="rm-items">
+          <div class="rm-item"><div class="rm-item-title">API Leads complet</div><div class="rm-item-desc">CRUD + stats + filtre + paginare — toate cu RLS verificat</div></div>
+          <div class="rm-item"><div class="rm-item-title">API Properties complet</div><div class="rm-item-desc">CRUD + upload poze Supabase Storage + generare URL sigure</div></div>
+          <div class="rm-item"><div class="rm-item-title">API Viewings + Followups</div><div class="rm-item-desc">CRUD + reminder logic + template-uri email via Resend</div></div>
+          <div class="rm-item"><div class="rm-item-title">Dashboard real-time</div><div class="rm-item-desc">Supabase Realtime subscriptions pentru update live fara refresh</div></div>
+          <div class="rm-item"><div class="rm-item-title">Pagina abonament + Stripe</div><div class="rm-item-desc">Checkout, portal billing, afisare plan activ, cancel flow</div></div>
+          <div class="rm-item"><div class="rm-item-title">UI Components migrat</div><div class="rm-item-desc">Toate paginile MVP migrate cu date din API real, fara LocalStorage</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rm-phase">
+      <div class="rm-head">
+        <div class="rm-phase-num">FAZA 03</div>
+        <div class="rm-phase-title">AI & Premium</div>
+        <div class="rm-timeline">Saptamanile 8-11</div>
+        <span class="tag tag-purple" style="margin-top:8px;">AI + UX</span>
+      </div>
+      <div class="rm-body">
+        <div class="rm-items">
+          <div class="rm-item"><div class="rm-item-title">OpenAI integration</div><div class="rm-item-desc">Endpoint generare descriere, rate limiting Redis, stocare in DB</div></div>
+          <div class="rm-item"><div class="rm-item-title">Resend email system</div><div class="rm-item-desc">Welcome, payment_failed, weekly_summary, reminder_viewing templates</div></div>
+          <div class="rm-item"><div class="rm-item-title">Export CSV / PDF</div><div class="rm-item-desc">Export leaduri si proprietati pentru plan Pro+, cu filtre</div></div>
+          <div class="rm-item"><div class="rm-item-title">Rapoarte comisioane</div><div class="rm-item-desc">Sumar lunar, grafice performanta, estimari anuale</div></div>
+          <div class="rm-item"><div class="rm-item-title">Upload poze proprietati</div><div class="rm-item-desc">Drag & drop, redimensionare automata, CDN Supabase Storage</div></div>
+          <div class="rm-item"><div class="rm-item-title">Mobile responsive final</div><div class="rm-item-desc">PWA manifest, offline mode partial cu service worker</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rm-phase">
+      <div class="rm-head">
+        <div class="rm-phase-num">FAZA 04</div>
+        <div class="rm-phase-title">Enterprise & Scale</div>
+        <div class="rm-timeline">Saptamanile 12-16</div>
+        <span class="tag tag-teal" style="margin-top:8px;">AGENTIE</span>
+      </div>
+      <div class="rm-body">
+        <div class="rm-items">
+          <div class="rm-item"><div class="rm-item-title">Multi-agent (Agentie)</div><div class="rm-item-desc">Cont director agentie, invite agenti, vizibilitate echipa selectiva</div></div>
+          <div class="rm-item"><div class="rm-item-title">Branding personalizat</div><div class="rm-item-desc">Logo, culori, domeniu custom pentru planul Agentie</div></div>
+          <div class="rm-item"><div class="rm-item-title">Dashboard director</div><div class="rm-item-desc">KPIs per agent, comparatii performanta, leaduri neasignate</div></div>
+          <div class="rm-item"><div class="rm-item-title">API public (beta)</div><div class="rm-item-desc">REST API cu API key pentru integrari terte — imobiliare.ro, OLX</div></div>
+          <div class="rm-item"><div class="rm-item-title">Penetration testing</div><div class="rm-item-desc">Audit securitate extern, OWASP Top 10, raport si remedieri</div></div>
+          <div class="rm-item"><div class="rm-item-title">Launch oficial</div><div class="rm-item-desc">ProductHunt RO, campanie Facebook Ads, program referral agenti</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cost estimate -->
+  <div class="grid-2" style="margin-top:32px;">
+    <div class="card card-gold">
+      <div class="card-title"><span class="dot dot-gold"></span>Costuri infrastructura lunare (la 500 utilizatori)</div>
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;">
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line);"><span style="color:var(--muted);">Supabase Pro</span><span style="color:#fff;font-family:'IBM Plex Mono',monospace;">$25/luna</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line);"><span style="color:var(--muted);">Vercel Pro</span><span style="color:#fff;font-family:'IBM Plex Mono',monospace;">$20/luna</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line);"><span style="color:var(--muted);">OpenAI GPT-4o (estimat)</span><span style="color:#fff;font-family:'IBM Plex Mono',monospace;">~$60/luna</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line);"><span style="color:var(--muted);">Upstash Redis</span><span style="color:#fff;font-family:'IBM Plex Mono',monospace;">~$10/luna</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line);"><span style="color:var(--muted);">Resend Pro</span><span style="color:#fff;font-family:'IBM Plex Mono',monospace;">$20/luna</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line);"><span style="color:var(--muted);">Stripe fees (2.9%+0.30 USD)</span><span style="color:#fff;font-family:'IBM Plex Mono',monospace;">variabil</span></div>
+        <div style="display:flex;justify-content:space-between;padding:8px 0;margin-top:4px;"><span style="color:var(--gold);font-family:'Syne',sans-serif;font-weight:700;">TOTAL fix/luna</span><span style="color:var(--gold);font-family:'IBM Plex Mono',monospace;font-weight:700;">~$135/luna</span></div>
+      </div>
+    </div>
+    <div class="card card-green">
+      <div class="card-title"><span class="dot dot-green"></span>Proiectie venituri (la 500 utilizatori activi)</div>
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;">
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line);"><span style="color:var(--muted);">250 × Solo (99 RON)</span><span style="color:#fff;font-family:'IBM Plex Mono',monospace;">24.750 RON</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line);"><span style="color:var(--muted);">180 × Pro (199 RON)</span><span style="color:#fff;font-family:'IBM Plex Mono',monospace;">35.820 RON</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line);"><span style="color:var(--muted);">70 × Agentie (499 RON)</span><span style="color:#fff;font-family:'IBM Plex Mono',monospace;">34.930 RON</span></div>
+        <div style="display:flex;justify-content:space-between;padding:8px 0;margin-top:4px;"><span style="color:#4ADE80;font-family:'Syne',sans-serif;font-weight:700;">MRR total</span><span style="color:#4ADE80;font-family:'IBM Plex Mono',monospace;font-weight:700;">95.500 RON/luna</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;"><span style="color:#4ADE80;font-family:'Syne',sans-serif;font-weight:700;">ARR proiectat</span><span style="color:#4ADE80;font-family:'IBM Plex Mono',monospace;font-weight:700;">~1.14M RON/an</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============================== FOOTER ============================== -->
+<footer id="footer">
+<div class="wrap">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-col-title">Document</div>
+      <div class="footer-item">AgentFlow Romania V2</div>
+      <div class="footer-item">Enterprise SaaS Blueprint</div>
+      <div class="footer-item">Versiune: 2.0.0 — Confidential</div>
+      <div class="footer-item" style="margin-top:12px;color:var(--gold);">Valoare estimata blueprint: €1.200.000</div>
+    </div>
+    <div>
+      <div class="footer-col-title">Stack tehnic V2</div>
+      <div class="footer-item">Next.js 14 App Router + TypeScript</div>
+      <div class="footer-item">Supabase PostgreSQL + Auth + Storage</div>
+      <div class="footer-item">Stripe Payments (subscriptii recurente)</div>
+      <div class="footer-item">OpenAI GPT-4o (AI anunturi)</div>
+      <div class="footer-item">Upstash Redis + Resend Email</div>
+      <div class="footer-item">Vercel (deploy + CI/CD)</div>
+    </div>
+    <div>
+      <div class="footer-col-title">Disclaimer legal</div>
+      <div class="footer-item">Acest document este un blueprint tehnic confidential creat pentru uz intern. Toate datele financiare sunt estimari. Nu reprezinta consultanta financiara sau juridica.</div>
+      <div class="footer-item" style="margin-top:8px;">Informatiile din acest document nu vor fi distribuite fara acordul explicit al echipei AgentFlow Romania.</div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 AgentFlow Romania — Blueprint Enterprise V2 — Confidential</span>
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(122,138,174,0.5);">rev.2.0.0 // SHA: a4f8c2d</span>
+  </div>
+</div>
+</footer>
+
+<script>
+// Fix the Stripe events rendering issue
+document.querySelectorAll('.card-gold .card-title + div').forEach(el => {
+  if (el.innerHTML.includes('[')) {
+    const events = [
+      ['checkout.session.completed','Plata initiala reusita → activare plan'],
+      ['customer.subscription.updated','Upgrade/downgrade → schimba plan in DB'],
+      ['customer.subscription.deleted','Anulare → dezactiveaza cont'],
+      ['invoice.payment_succeeded','Plata recurenta OK → mentine activ'],
+      ['invoice.payment_failed','Plata esuata → past_due + email retry'],
+      ['customer.created','Client nou Stripe → sync stripe_customer_id'],
+    ];
+    el.innerHTML = events.map(([ev, desc]) => `
+      <div style="border:1px solid rgba(201,160,21,0.2);border-radius:3px;padding:8px 12px;margin-bottom:8px;">
+        <code style="font-size:10px;color:#C9A015;">${ev}</code>
+        <p style="font-size:11px;color:#7A8AAE;margin-top:2px;">${desc}</p>
+      </div>`).join('');
+  }
+});
+</script>
+</body>
+</html>
